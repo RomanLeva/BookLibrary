@@ -1,0 +1,36 @@
+﻿@model WebUI.Models.BookViewModel
+
+@{
+    ViewBag.Title = "Book";
+    var base64 = Convert.ToBase64String(Model.Image);
+    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+}
+
+<div id="book" class="item">
+    <h3>ID - @Model.BookId</h3>
+    <p>Name - @Model.Name</p>
+    <p>Description - @Model.Description</p>
+    <p>ISBN - @Model.ISBN</p>
+    <p>Date - @Model.Date</p>
+    <img width="300" height="300" src="@imgSrc" />
+    <p>Authors:</p>
+    <ul>
+        @foreach (var a in Model.Authors)
+        {
+            <li>@Html.ActionLink(a.Name + " " + a.Surname, "Author/" + a.AuthorId, "Authors")</li>
+        }
+    </ul>
+    <p>Genres:</p>
+    <ul>
+        @foreach (var g in Model.Genres)
+        {
+            <li>@Html.ActionLink(g.Name, "Genre/" + g.GenreId, "Genres")</li>
+        }
+    </ul>
+    <div class="statistics">
+        @ViewBag.Stat
+    </div>
+    <main>@Model.Text</main>
+
+</div>
+

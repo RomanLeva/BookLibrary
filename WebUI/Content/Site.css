@@ -1,0 +1,108 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+#book {
+    
+    width: auto;
+    height: auto;
+    padding: 1em;
+    margin: 1em;
+}
+.editor-field {
+    margin-bottom: .2em;
+    margin-top: .2em;
+}
+
+h2 {
+    margin: .1em;
+    
+}
+
+.editor-label {
+    margin-bottom: .2em;
+    margin-top: .2em;
+    margin-left: .2em;
+    font-weight: normal
+}
+
+.editor-label:after {
+    content: ":"
+}
+
+.text-box {
+    margin: .2em;
+    width: 15em;
+}
+
+.multi-line {
+    margin: .2em;
+    height: 5em;
+}
+.message {
+    color: orangered;
+}
+
+.createnew {
+    margin-bottom: .2em;
+    margin-top: .2em;
+    font: bold;
+    color: dodgerblue;
+}
+.column {
+    float: left;
+    margin: 10px;
+}
+.field-validation-error {
+    color: #b94a48;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error {
+    border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+
+.validation-summary-errors {
+    color: #b94a48;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+.upload {
+    padding: 0.5em;
+    margin: 0.5em;
+    border: 1px solid black;
+}
+.filters {
+    padding: 0.5em;
+    margin: 0.5em;
+   
+}

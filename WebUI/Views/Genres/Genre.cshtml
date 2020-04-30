@@ -1,0 +1,16 @@
+﻿@model WebUI.Models.GenreViewModel
+@{
+    ViewBag.Title = "Genre";
+}
+<div id="author" class="item">
+    <h3>ID - @Model.GenreId</h3>
+    <p>Name - @Model.Name</p>
+    <p>Genre books:</p>
+    <ul>
+        @foreach (var b in Model.Books)
+        {
+            <li>@Html.ActionLink(b.Name + " ", "Book/" + b.BookId, "Books")</li>
+        }
+    </ul>
+</div>
+

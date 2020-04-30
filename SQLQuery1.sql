@@ -1,0 +1,1 @@
+﻿delete from Books;delete from Authors; delete from Genres;

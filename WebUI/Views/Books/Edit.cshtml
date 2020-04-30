@@ -1,0 +1,66 @@
+﻿@using WebUI.Models
+@model WebUI.Models.BookViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit - @Model.Name</h2>
+@using (Html.BeginForm("Edit", "Books", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="item">
+        @Html.LabelFor(model => model.BookId)
+        @Html.DisplayFor(model => model.BookId)
+        @Html.HiddenFor(model => model.BookId)
+    </div>
+    <div class="item">
+        @Html.LabelFor(model => model.Name)
+        @Html.EditorFor(model => model.Name)
+        @Html.ValidationMessageFor(model => model.Name)
+    </div>
+    <div class="item">
+        @Html.LabelFor(model => model.Description)
+        @Html.EditorFor(model => model.Description)
+        @Html.ValidationMessageFor(model => model.Description)
+    </div>
+    <div class="item">
+        @Html.LabelFor(model => model.ISBN)
+        @Html.EditorFor(model => model.ISBN)
+        @Html.ValidationMessageFor(model => model.ISBN)
+    </div>
+    <div class="item">
+        @Html.LabelFor(model => model.Date)
+        @Html.EditorFor(model => model.Date.Year)
+        @Html.ValidationMessageFor(model => model.Date)
+    </div>
+    <div class="item">
+        Select Author:
+        @Html.DropDownList("authorid", (ViewBag.Authors as List<AuthorViewModel>)
+        .Select(
+            x => new SelectListItem { Text = x.Name + " " + x.Surname, Value = x.AuthorId.ToString() }
+            )
+        )
+        @Html.ValidationMessageFor(model => model.Authors)
+    </div>
+    <div class="item">
+        Select Genre:
+        @Html.DropDownList("genreid", (ViewBag.Genres as List<GenreViewModel>)
+        .Select(
+            x => new SelectListItem { Text = x.Name, Value = x.GenreId.ToString() }
+            )
+        )
+        @Html.ValidationMessageFor(model => model.Genres)
+    </div>
+    <div class="upload">
+        Upload image:
+        <input type="file" name="imageFile" />
+    </div>
+    <div class="upload">
+        Upload text:
+        <input type="file" name="textFile" />
+    </div>
+    <p> </p>
+    <input type="submit" value="Save" />
+    @Html.ActionLink("Cancel", "Books")
+
+}

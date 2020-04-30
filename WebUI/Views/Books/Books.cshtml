@@ -1,0 +1,87 @@
+﻿@model IEnumerable<WebUI.Models.BookViewModel>
+@{
+    ViewBag.Title = "Books";
+}
+<div class="createnew">
+    @Html.ActionLink("Create New", "Create")
+</div>
+<div class="filters">
+    @using (Html.BeginForm("Search", "Books", FormMethod.Post))
+    {
+        <table class="filter">
+            <tr>
+                <th>by book name</th>
+                <th>by author name</th>
+                <th>by genre</th>
+                <th>by year</th>
+            </tr>
+            <tr>
+                <td>
+                    @Html.TextBox("BookName")
+                </td>
+                <td>
+                    @Html.TextBox("AuthorName")
+                </td>
+                <td>
+                    @Html.TextBox("Genre")
+                </td>
+                <td>
+                    @Html.TextBox("Date")
+                </td>
+                <td>
+                    <input type="submit" value="Search" />
+                </td>
+            </tr>
+        </table>
+        <p></p>
+    }
+</div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BookId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ISBN)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Text)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr id="book">
+            <td>
+                @Html.DisplayFor(modelItem => item.BookId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ISBN)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit/" + item.BookId) |
+                @Html.ActionLink("Details", "Book/" + item.BookId) |
+                @Html.ActionLink("Delete", "Delete/" + item.BookId)
+            </td>
+        </tr>
+    }
+
+</table>

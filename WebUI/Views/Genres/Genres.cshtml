@@ -1,0 +1,30 @@
+﻿@model IEnumerable<WebUI.Models.GenreViewModel>
+@{
+    ViewBag.Title = "Genre";
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.GenreId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr id="author">
+            <td>
+                @Html.DisplayFor(modelItem => item.GenreId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Genre/" + item.GenreId)
+            </td>
+        </tr>
+    }
+
+</table>
