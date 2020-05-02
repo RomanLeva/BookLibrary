@@ -8,8 +8,6 @@ namespace WebUI.App_Start
     {
         public static void Register(HttpConfiguration config)
         {
-            config.DependencyResolver = new NinjectResolver();
-            // Web API routes
             config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

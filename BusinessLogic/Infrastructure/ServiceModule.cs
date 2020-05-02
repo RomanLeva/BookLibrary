@@ -12,6 +12,7 @@ namespace BusinessLogic.Infrastructure
         {
             var mapperConfiguration = new MapperConfiguration(config => {
                 config.AddProfile<MyAutoMapperEntityAndDto>();
+                config.ForAllMaps((typeMap, mappingExpression) => mappingExpression.MaxDepth(2));
             });
             Bind<IMapper>().ToConstructor(c => new Mapper(mapperConfiguration)).InSingletonScope();
             Bind<IBookRepository>().To<BookRepository>().WithConstructorArgument("dbContext", new EFDBContext());
