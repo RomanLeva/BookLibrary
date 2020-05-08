@@ -169,12 +169,11 @@
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\GenresController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\WebController.cs" />
+    <Compile Include="Controllers\BookApiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\MyAutoMapperViewAndDto.cs" />
-    <Compile Include="Models\AuthorJson.cs" />
     <Compile Include="Models\AuthorViewModel.cs" />
     <Compile Include="Models\BookJson.cs" />
     <Compile Include="Models\BookViewModel.cs" />
@@ -229,7 +228,7 @@
     <Content Include="Views\Genres\Genre.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="App_Data\images\" />
     <Folder Include="Views\WebLibraryValues\" />
   </ItemGroup>
   <ItemGroup>

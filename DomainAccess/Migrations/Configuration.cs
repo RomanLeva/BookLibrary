@@ -34,7 +34,7 @@
             book.ISBN = "123456";
             book.Description = "Info about book";
             book.Text = "Some story about siberian Kamaz drivers living.";
-            //Image path may cause problems
+            
             //book.Image = File.ReadAllBytes(@"..\Image\test_pict.jpg");
             book.Authors.Add(author);
             author.AuthorsBooks.Add(book);

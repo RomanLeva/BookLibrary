@@ -25,7 +25,7 @@ namespace WebUI.Models
 
         public string Text { get; set; }
 
-        public byte[] Image { get; set; }
+        public string Image { get; set; }
 
         [Required(ErrorMessage = "Author is required.")]
         public ICollection<AuthorViewModel> Authors { get; set; }

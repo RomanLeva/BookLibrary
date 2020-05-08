@@ -17,7 +17,7 @@ namespace BusinessLogic.DTO
 
         public string Text { get; set; }
 
-        public byte[] Image { get; set; }
+        public string Image { get; set; }
 
         public ICollection<AuthorDTO> Authors { get; set; } // lazy loading
 

@@ -11,6 +11,7 @@ using System.Web;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Web.Hosting;
 
 namespace WebUI.Controllers
 {
@@ -53,8 +54,16 @@ namespace WebUI.Controllers
             {
                 if (imageFile != null)
                 {
-                    item.Image = new byte[imageFile.ContentLength];
-                    imageFile.InputStream.Read(item.Image, 0, imageFile.ContentLength);
+
+                    var image = new byte[imageFile.ContentLength];
+                    imageFile.InputStream.Read(image, 0, imageFile.ContentLength);
+                    var path = Server.MapPath(@"/App_Data/images/" + item.Name + ".jpg");
+                    System.IO.File.WriteAllBytes(path, image);
+                    item.Image = "/App_Data/images/" + item.Name + ".jpg";
+                    //using (var fileStream = System.IO.File.Create(HostingEnvironment.MapPath("/App_Data/images/" + item.Name + ".jpg")))
+                    //{
+                    //    fileStream.Write(image, 0, imageFile.ContentLength);
+                    //}
                 }
                 if (textFile != null)
                 {
@@ -127,6 +136,11 @@ namespace WebUI.Controllers
             sb.Append("Middle word length: ").Append(BookStatUtils.MiddleWordLegth(text)).AppendLine();
             sb.Append("Middle sentence length: ").Append(BookStatUtils.MiddleSentenceLength(text)).AppendLine();
             return sb.ToString();
+        }
+
+        public void Fill()
+        {
+            bookService.FillStorageWithFakeUsers();
         }
     }
 }

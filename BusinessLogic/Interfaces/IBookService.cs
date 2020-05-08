@@ -13,5 +13,6 @@ namespace BusinessLogic.Interfaces
         void Update(BookDTO item);
         void Delete(int id);
         List<BookDTO> Search(string BookName, string AuthorName, string Genre, string Date);
+        void FillStorageWithFakeUsers();
     }
 }

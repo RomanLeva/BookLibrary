@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using BusinessLogic.DTO;
+using BusinessLogic.Infrastructure;
 using BusinessLogic.Interfaces;
 using DomainAccess.Abstract;
 using DomainAccess.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 
 namespace BusinessLogic.Services
@@ -70,6 +72,11 @@ namespace BusinessLogic.Services
             var books = repository.Search(BookName,AuthorName,Genre,Date);
             return mapper.Map<List<BookDTO>>(books);
         }
-        
+        public void FillStorageWithFakeUsers()
+        {
+            string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\pcv\\Documents\\BookLibrary.mdf;Integrated Security=True;Connect Timeout=30";
+
+            TableGenerator.FillStorageWithFakeUsers(connectionString, 110, 111, 110, 111, 110, 111);
+        }
     }
 }

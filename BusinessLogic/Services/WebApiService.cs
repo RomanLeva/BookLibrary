@@ -10,14 +10,14 @@ using System.Text;
 
 namespace BusinessLogic.Services
 {
-    public class WebService : IWebService
+    public class WebApiService : IWebApiService
     {
         private IMapper mapper;
         private IBookRepository bookRep;
         private IGenreRepository genreRep;
         private IAuthorRepository authorRep;
 
-        public WebService(IBookRepository bookRep, IGenreRepository genreRep, IAuthorRepository authorRep, IMapper mapper)
+        public WebApiService(IBookRepository bookRep, IGenreRepository genreRep, IAuthorRepository authorRep, IMapper mapper)
         {
             this.mapper = mapper;
             this.bookRep = bookRep;
@@ -66,6 +66,11 @@ namespace BusinessLogic.Services
         public void CreateOrUpdateBook(BookDTO book)
         {
             var obj = mapper.Map<Book>(book);
+        }
+
+        public void DeleteBook(int id)
+        {
+            bookRep.Delete(id);
         }
     }
 }

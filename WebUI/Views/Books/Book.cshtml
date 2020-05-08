@@ -1,18 +1,12 @@
 ﻿@model WebUI.Models.BookViewModel
 
-@{
-    ViewBag.Title = "Book";
-    var base64 = Convert.ToBase64String(Model.Image);
-    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-}
-
 <div id="book" class="item">
     <h3>ID - @Model.BookId</h3>
     <p>Name - @Model.Name</p>
     <p>Description - @Model.Description</p>
     <p>ISBN - @Model.ISBN</p>
     <p>Date - @Model.Date</p>
-    <img width="300" height="300" src="@imgSrc" />
+    <img width="300" height="300" src="@Model.Image" />
     <p>Authors:</p>
     <ul>
         @foreach (var a in Model.Authors)

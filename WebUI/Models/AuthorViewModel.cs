@@ -25,7 +25,7 @@ namespace WebUI.Models
         [Column(TypeName = "date")]
         public DateTime DateOfBirth { get; set; }
 
-        public byte[] Image { get; set; }
+        public string Image { get; set; }
 
         [Required]
         public virtual ICollection<BookViewModel> AuthorsBooks { get; set; }

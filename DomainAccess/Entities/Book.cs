@@ -11,7 +11,7 @@ namespace DomainAccess.Entities
         public int BookId { get; set; }
 
         [Required]
-        //[Index]
+        [Index]
         [StringLength(50)]
         public string Name { get; set; }
 
@@ -26,7 +26,7 @@ namespace DomainAccess.Entities
 
         public string Text { get; set; }
 
-        public byte[] Image { get; set; }
+        public string Image { get; set; }
 
         [Required]
         public virtual ICollection<Author> Authors { get; set; }

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 
 namespace BusinessLogic.Interfaces
 {
-    public interface IWebService
+    public interface IWebApiService
     {
         List<BookDTO> GetBooks();
         BookDTO GetBook(int id);
         void CreateOrUpdateBook(BookDTO book);
+        void DeleteBook(int id);
+        string GetBookStat(int id);
         List<AuthorDTO> GetAuthors();
         List<GenreDTO> GetGenres();
-        string GetBookStat(int id);
     }
 }

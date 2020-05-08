@@ -71,10 +71,9 @@ namespace WebUI.App_Start
             kernel.Bind<IBookService>().To<BookService>();
             kernel.Bind<IAuthorService>().To<AuthorService>();
             kernel.Bind<IGenreService>().To<GenreService>();
-            kernel.Bind<IWebService>().To<WebService>();
+            kernel.Bind<IWebApiService>().To<WebApiService>();
             var mapperConfiguration = new MapperConfiguration(config => {
                 config.AddProfile<MyAutoMapperViewAndDto>();
-                
             });
             
         }        

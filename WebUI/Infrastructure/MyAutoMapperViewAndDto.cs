@@ -8,12 +8,12 @@ namespace WebUI.Infrastructure
     {
         public MyAutoMapperViewAndDto()
         {
-            CreateMap<BookDTO, BookViewModel>();
-            CreateMap<AuthorDTO, AuthorViewModel>();
-            CreateMap<GenreDTO, GenreViewModel>();
-            CreateMap<BookViewModel, BookDTO>();
-            CreateMap<AuthorViewModel, AuthorDTO>();
-            CreateMap<GenreViewModel, GenreDTO>();
+            CreateMap<BookDTO, BookViewModel>().MaxDepth(1);
+            CreateMap<AuthorDTO, AuthorViewModel>().MaxDepth(1);
+            CreateMap<GenreDTO, GenreViewModel>().MaxDepth(1);
+            CreateMap<BookViewModel, BookDTO>().MaxDepth(1);
+            CreateMap<AuthorViewModel, AuthorDTO>().MaxDepth(1);
+            CreateMap<GenreViewModel, GenreDTO>().MaxDepth(1);
         }
     }
 }

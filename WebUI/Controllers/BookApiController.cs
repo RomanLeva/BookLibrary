@@ -1,4 +1,5 @@
-﻿using BusinessLogic.DTO;
+﻿using AutoMapper;
+using BusinessLogic.DTO;
 using BusinessLogic.Interfaces;
 using Newtonsoft.Json;
 using System;
@@ -7,32 +8,39 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using WebUI.Infrastructure;
 using WebUI.Models;
 
 namespace WebUI.Controllers
 {
-    public class WebController : ApiController
+    public class BookApiController : ApiController
     {
-        // /api/web/3232
-        public IWebService WebService { get; set; }
+        // /api/bookapi/3232
+        private IMapper mapper;
+        public IWebApiService webService;
 
-        public WebController(IWebService webService)
+        public BookApiController(IWebApiService webService)
         {
-            WebService = webService;
+            this.webService = webService;
+            var mapperConfiguration = new MapperConfiguration(config => {
+                config.AddProfile<MyAutoMapperViewAndDto>();
+                config.ForAllMaps((typeMap, mappingExpression) => mappingExpression.MaxDepth(1));
+            });
+            mapper = new Mapper(mapperConfiguration);
         }
  
         [HttpGet]
         public List<BookDTO> GetBooks()
         {
-            return WebService.GetBooks();
+            return webService.GetBooks();
         }
 
         [HttpGet]
-        public BookDTO GetBook(int id)
+        public BookViewModel GetBook(int id)
         {
-            WebService.GetBook(id);
-            var obj = WebService.GetBook(id);
-            return obj;
+            var dtoObj = webService.GetBook(id);
+            var viewObj = mapper.Map<BookViewModel>(dtoObj);
+            return viewObj;
             //if (obj == null)
             //{
             //    var message = string.Format("Product with id = {0} not found", id);
@@ -59,18 +67,12 @@ namespace WebUI.Controllers
         [HttpPost]
         public void PostBook(BookDTO book)
         {
-            WebService.CreateOrUpdateBook(book);
+            webService.CreateOrUpdateBook(book);
         }
-        [HttpGet]
-        public HttpResponseMessage GetAuthors()
+        [HttpDelete]
+        public void DeleteBook(int id)
         {
-            var objs = WebService.GetAuthors();
-            return null;
-        }
-        [HttpGet]
-        public List<GenreDTO> GetGenres()
-        {
-            return WebService.GetGenres();
+            webService.DeleteBook(id);
         }
     }
 }

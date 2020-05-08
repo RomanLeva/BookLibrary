@@ -11,10 +11,12 @@ namespace DomainAccess.Entities
         public int AuthorId { get; set; }
 
         [Required]
+        [Index]
         [StringLength(50)]
         public string Name { get; set; }
 
         [Required]
+        [Index]
         [StringLength(50)]
         public string Surname { get; set; }
 
@@ -25,7 +27,7 @@ namespace DomainAccess.Entities
         [Column(TypeName = "date")]
         public DateTime DateOfBirth { get; set; }
 
-        public byte[] Image { get; set; }
+        public string Image { get; set; }
 
         [Required]
         public virtual ICollection<Book> AuthorsBooks { get; set; }
