@@ -59,30 +59,58 @@
         </th>
         <th></th>
     </tr>
-    @foreach (var item in Model)
+
+    @{ 
+        long start = 0;
+        long end = 0;
+        if (ViewBag.PageNumber == 1)
+        {
+            start = 1;
+            end = ViewBag.PageSize;
+        } 
+        else
+        {
+            start = (ViewBag.PageNumber - 1) * ViewBag.PageSize;
+            end = ViewBag.PageNumber * ViewBag.PageSize;
+        }
+        var items = Model.Where(b => b.BookId >= start & b.BookId <= end);
+        foreach (var item in items)
+        {
+            <tr id="book">
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ISBN)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit/" + item.BookId) |
+                    @Html.ActionLink("Details", "Book/" + item.BookId) |
+                    @Html.ActionLink("Delete", "Delete/" + item.BookId)
+                </td>
+            </tr>
+        }
+        }
+</table>
+<div class="btn-group">
+    @if (ViewBag.PageNumber > 1)
     {
-        <tr id="book">
-            <td>
-                @Html.DisplayFor(modelItem => item.BookId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ISBN)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit/" + item.BookId) |
-                @Html.ActionLink("Details", "Book/" + item.BookId) |
-                @Html.ActionLink("Delete", "Delete/" + item.BookId)
-            </td>
-        </tr>
+        @Html.RouteLink("<<", "Books", new { controller = "Books", action = "Books", id = 1 }, new { @class = "btn btn-default" })
+        @Html.RouteLink("<", "Books", new { controller = "Books", action = "Books", id = ViewBag.PageNumber - 1 }, new { @class = "btn btn-default" })
+    }
+    @if (ViewBag.PageNumber < Math.Abs(ViewBag.ObjectsCount / ViewBag.PageSize) + 1)
+    {
+        @Html.RouteLink(">", "Books", new { controller = "Books", action = "Books", id = ViewBag.PageNumber + 1 }, new { @class = "btn btn-default" })
+        @Html.RouteLink(">>", "Books", new { controller = "Books", action = "Books", id = Math.Abs(ViewBag.ObjectsCount / ViewBag.PageSize) + 1 }, new { @class = "btn btn-default" })
     }
 
-</table>
+</div>

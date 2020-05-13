@@ -1,6 +1,7 @@
 ﻿using BusinessLogic.DTO;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BusinessLogic.Interfaces
 {
@@ -13,6 +14,6 @@ namespace BusinessLogic.Interfaces
         void Update(BookDTO item);
         void Delete(int id);
         List<BookDTO> Search(string BookName, string AuthorName, string Genre, string Date);
-        void FillStorageWithFakeUsers();
+        Task FillStorageWithFakeUsers();
     }
 }

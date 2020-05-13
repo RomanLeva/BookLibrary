@@ -9,9 +9,7 @@ using BusinessLogic.DTO;
 using WebUI.Infrastructure;
 using System.Web;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Web.Hosting;
 
 namespace WebUI.Controllers
 {
@@ -21,6 +19,7 @@ namespace WebUI.Controllers
         private readonly IAuthorService authorService;
         private readonly IGenreService genreService;
         private IMapper mapper;
+        private int pagesize = 30;
 
         public BooksController(IBookService bookService, IAuthorService authorService, IGenreService genreService)
         {
@@ -33,10 +32,14 @@ namespace WebUI.Controllers
             mapper = new Mapper(mapperConfiguration);
         }
         // GET: Books
-        public ActionResult Books()
+        public ActionResult Books(int? id)
         {
+            var pageNumber = id ?? 1;
             var dtoObjs = bookService.GetAll();
             var viewObjs = mapper.Map<List<BookViewModel>>(dtoObjs);
+            ViewBag.PageNumber = pageNumber;
+            ViewBag.PageSize = pagesize;
+            ViewBag.ObjectsCount = viewObjs.Count;
             return View(viewObjs);
         }
         // GET: One book
@@ -57,13 +60,9 @@ namespace WebUI.Controllers
 
                     var image = new byte[imageFile.ContentLength];
                     imageFile.InputStream.Read(image, 0, imageFile.ContentLength);
-                    var path = Server.MapPath(@"/App_Data/images/" + item.Name + ".jpg");
+                    var path = Server.MapPath(@"/images/" + item.Name + ".jpg");
                     System.IO.File.WriteAllBytes(path, image);
-                    item.Image = "/App_Data/images/" + item.Name + ".jpg";
-                    //using (var fileStream = System.IO.File.Create(HostingEnvironment.MapPath("/App_Data/images/" + item.Name + ".jpg")))
-                    //{
-                    //    fileStream.Write(image, 0, imageFile.ContentLength);
-                    //}
+                    item.Image = "/images/" + item.Name + ".jpg";
                 }
                 if (textFile != null)
                 {
@@ -123,6 +122,9 @@ namespace WebUI.Controllers
         {
             var dtoObjs = bookService.Search(BookName, AuthorName, Genre, Date);
             var viewObjs = mapper.Map<List<BookViewModel>>(dtoObjs);
+            ViewBag.PageNumber = 1;
+            ViewBag.PageSize = pagesize;
+            ViewBag.ObjectsCount = viewObjs.Count;
             return View("Books", viewObjs);
         }
         private string GetBookStatistics(BookViewModel book)
@@ -138,9 +140,11 @@ namespace WebUI.Controllers
             return sb.ToString();
         }
 
-        public void Fill()
+        public ActionResult Fill()
         {
             bookService.FillStorageWithFakeUsers();
+            TempData["msg"] = "Started creating alot of books in database";
+            return RedirectToAction("Books");
         }
     }
 }

@@ -7,13 +7,13 @@ namespace DomainAccess.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.0")]
-    public sealed partial class AddingVirtualLists : IMigrationMetadata
+    public sealed partial class Inital : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddingVirtualLists));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Inital));
         
         string IMigrationMetadata.Id
         {
-            get { return "202004101823090_AddingVirtualLists"; }
+            get { return "202005131311415_Inital"; }
         }
         
         string IMigrationMetadata.Source

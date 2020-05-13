@@ -16,8 +16,8 @@ namespace BusinessLogic.Infrastructure
             WriteToserver(CreateBooksTable(idBooksFrom, idBooksTo));
             WriteToserver(CreateAuthorsTable(idAuthorsFrom, idAuthorsTo));
             WriteToserver(CreateGenresTable(idGenresFrom, idGenresTo));
-            //WriteToserver(CreateBookAuthorsTable(idBooksFrom, idBooksTo, idAuthorsFrom, idAuthorsTo));
-            //WriteToserver(CreateGenreBooksTable(idGenresFrom, idGenresTo, idBooksFrom, idBooksTo));
+            WriteToserver(CreateBookAuthorsTable(idBooksFrom, idBooksTo, idAuthorsFrom, idAuthorsTo));
+            WriteToserver(CreateGenreBooksTable(idGenresFrom, idGenresTo, idBooksFrom, idBooksTo));
         }
         private static void WriteToserver(DataTable table)
         {
@@ -34,6 +34,7 @@ namespace BusinessLogic.Infrastructure
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine(e.Message);
                     throw e;
                 }
             }
@@ -42,11 +43,11 @@ namespace BusinessLogic.Infrastructure
         private static DataTable CreateBooksTable(int idFrom, int idTo)
         {
             var dataTable = new DataTable("Books");
-            var columns = new[] { "BookID", "Name", "Description", "Date", "ISBN", "Text", "Image" };
+            var columns = new[] { "BookId", "Name", "Description", "Date", "ISBN", "Text", "Image" };
             foreach (var column in columns)
             {
                 var c = dataTable.Columns.Add(column);
-                if (c.ColumnName.Equals("BookID"))
+                if (c.ColumnName.Equals("BookId"))
                 {
                     c.AutoIncrement = true;
                     c.AutoIncrementSeed = idFrom;
@@ -55,13 +56,13 @@ namespace BusinessLogic.Infrastructure
             for (var i = idFrom; i <= idTo; i++)
             {
                 var row = dataTable.NewRow();
-                row["BookID"] = i;
+                row["BookId"] = i;
                 row["Name"] = GenerateName();
                 row["Description"] = random.Next(100000).ToString();
                 row["Date"] = new DateTime(2020, 1, 1); 
                 row["ISBN"] = random.Next(100000).ToString();
                 row["Text"] = "some random text" + random.Next(100000).ToString();
-                row["Image"] = "C:\\Users\\pcv\\source\repos\\BookLibrary\\WebUI\\Content\\images\\book_image.jpg";
+                row["Image"] = "~\\images\\book_image.jpg";
                 dataTable.Rows.Add(row);
             }
             return dataTable;
@@ -70,11 +71,11 @@ namespace BusinessLogic.Infrastructure
         private static DataTable CreateAuthorsTable(int idFrom, int idTo)
         {
             var dataTable = new DataTable("Authors");
-            var columns = new[] { "AuthorID", "Name", "Surname", "Patronymic", "DateOfBirth", "Image" };
+            var columns = new[] { "AuthorId", "Name", "Surname", "Patronymic", "DateOfBirth", "Image" };
             foreach (var column in columns)
             {
                 var c = dataTable.Columns.Add(column);
-                if (c.ColumnName.Equals("AuthorID"))
+                if (c.ColumnName.Equals("AuthorId"))
                 {
                     c.AutoIncrement = false;
                     c.AutoIncrementSeed = idFrom;
@@ -83,12 +84,12 @@ namespace BusinessLogic.Infrastructure
             for (var i = idFrom; i <= idTo; i++)
             {
                 var row = dataTable.NewRow();
-                row["AuthorID"] = i;
+                row["AuthorId"] = i;
                 row["Name"] = GenerateName();
                 row["Surname"] = GenerateName();
                 row["Patronymic"] = GenerateName();
                 row["DateOfBirth"] = new DateTime(1987, 1, 1);
-                row["Image"] = "C:\\Users\\pcv\\source\repos\\BookLibrary\\WebUI\\Content\\images\\Kolima-Magadan road.jpg";
+                row["Image"] = "~\\images\\Kolima-Magadan road.jpg";
                 dataTable.Rows.Add(row);
             }
             return dataTable;
@@ -97,11 +98,11 @@ namespace BusinessLogic.Infrastructure
         private static DataTable CreateGenresTable(int idFrom, int idTo)
         {
             var dataTable = new DataTable("Genres");
-            var columns = new[] { "GenreID", "Name" };
+            var columns = new[] { "GenreId", "Name" };
             foreach (var column in columns)
             {
                 var c = dataTable.Columns.Add(column);
-                if (c.ColumnName.Equals("GenreID"))
+                if (c.ColumnName.Equals("GenreId"))
                 {
                     c.AutoIncrement = false;
                     c.AutoIncrementSeed = idFrom;
@@ -110,7 +111,7 @@ namespace BusinessLogic.Infrastructure
             for (var i = idFrom; i <= idTo; i++)
             {
                 var row = dataTable.NewRow();
-                row["GenreID"] = i;
+                row["GenreId"] = i;
                 row["Name"] = GenerateName();
                 dataTable.Rows.Add(row);
             }
@@ -119,7 +120,7 @@ namespace BusinessLogic.Infrastructure
         private static DataTable CreateBookAuthorsTable(int idBooksFrom, int idBooksTo, int idAuthorsFrom, int idAuthorsTo)
         {
             var dataTable = new DataTable("BookAuthors");
-            var columns = new[] { "Book_BookID", "Author_AuthorID" };
+            var columns = new[] { "Book_BookId", "Author_AuthorId" };
             foreach (var column in columns)
             {
                 dataTable.Columns.Add(column);
@@ -128,8 +129,8 @@ namespace BusinessLogic.Infrastructure
             for (var b = idBooksFrom; b <= idBooksTo; b++)
             {
                 var row = dataTable.NewRow();
-                row["Book_BookID"] = b;
-                row["Author_AuthorID"] = ++a;
+                row["Book_BookId"] = b;
+                row["Author_AuthorId"] = ++a;
                 dataTable.Rows.Add(row);
                 if (a == idAuthorsTo) a = idAuthorsFrom;
             }
@@ -139,7 +140,7 @@ namespace BusinessLogic.Infrastructure
         private static DataTable CreateGenreBooksTable(int idGenresFrom, int idGenresTo, int idBooksFrom, int idBooksTo)
         {
             var dataTable = new DataTable("GenreBooks");
-            var columns = new[] { "Genre_GenreID", "Book_BookID" };
+            var columns = new[] { "Genre_GenreId", "Book_BookId" };
             foreach (var column in columns)
             {
                 dataTable.Columns.Add(column);
@@ -148,8 +149,8 @@ namespace BusinessLogic.Infrastructure
             for (var g = idGenresFrom; g <= idGenresTo; g++)
             {
                 var row = dataTable.NewRow();
-                row["Book_BookID"] = b;
-                row["Author_AuthorID"] = ++b;
+                row["Book_BookId"] = b;
+                row["Genre_GenreId"] = ++b;
                 dataTable.Rows.Add(row);
                 if (b == idBooksTo) b = idBooksFrom;
             }

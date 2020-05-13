@@ -75,17 +75,9 @@
     <Compile Include="Entities\Book.cs" />
     <Compile Include="Entities\Genre.cs" />
     <Compile Include="EntityFramework\EFDBContext.cs" />
-    <Compile Include="Migrations\202003291317571_MyMig2_1.cs" />
-    <Compile Include="Migrations\202003291317571_MyMig2_1.designer.cs">
-      <DependentUpon>202003291317571_MyMig2_1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202004101823090_AddingVirtualLists.cs" />
-    <Compile Include="Migrations\202004101823090_AddingVirtualLists.designer.cs">
-      <DependentUpon>202004101823090_AddingVirtualLists.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202005061440019_indexing.cs" />
-    <Compile Include="Migrations\202005061440019_indexing.designer.cs">
-      <DependentUpon>202005061440019_indexing.cs</DependentUpon>
+    <Compile Include="Migrations\202005131311415_Inital.cs" />
+    <Compile Include="Migrations\202005131311415_Inital.designer.cs">
+      <DependentUpon>202005131311415_Inital.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -94,9 +86,6 @@
     <Compile Include="Repositories\GenreRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -115,18 +104,12 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202003291317571_MyMig2_1.resx">
-      <DependentUpon>202003291317571_MyMig2_1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202004101823090_AddingVirtualLists.resx">
-      <DependentUpon>202004101823090_AddingVirtualLists.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202005061440019_indexing.resx">
-      <DependentUpon>202005061440019_indexing.cs</DependentUpon>
-    </EmbeddedResource>
+    <Content Include="test_pict.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="test_pict.jpg" />
+    <EmbeddedResource Include="Migrations\202005131311415_Inital.resx">
+      <DependentUpon>202005131311415_Inital.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

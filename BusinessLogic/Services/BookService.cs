@@ -6,8 +6,10 @@ using DomainAccess.Abstract;
 using DomainAccess.Entities;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BusinessLogic.Services
 {
@@ -72,11 +74,11 @@ namespace BusinessLogic.Services
             var books = repository.Search(BookName,AuthorName,Genre,Date);
             return mapper.Map<List<BookDTO>>(books);
         }
-        public void FillStorageWithFakeUsers()
+        public async Task FillStorageWithFakeUsers()
         {
-            string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\pcv\\Documents\\BookLibrary.mdf;Integrated Security=True;Connect Timeout=30";
-
-            TableGenerator.FillStorageWithFakeUsers(connectionString, 110, 111, 110, 111, 110, 111);
+            string connectionString = ConfigurationManager.ConnectionStrings["Book_Library"].ConnectionString;
+            await Task.Run(() => TableGenerator.FillStorageWithFakeUsers(connectionString, 1, 10000, 1, 1000, 1, 100));
+            
         }
     }
 }
