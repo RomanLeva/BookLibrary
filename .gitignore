@@ -21,7 +21,6 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
-/images/books/
 
 # Visual Studio 2015 cache/options directory
 .vs/
@@ -185,6 +184,7 @@ _pkginfo.txt
 !*.[Cc]ache/
 
 # Others
+WebUI/images/books/
 ClientBin/
 ~$*
 *~
