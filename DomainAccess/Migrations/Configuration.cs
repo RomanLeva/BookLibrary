@@ -22,7 +22,7 @@ namespace DataAccess.Migrations
             author.Patronymic = "Ivanovich";
             author.Surname = "Duborezov";
             author.BirthDate = DateTime.Parse("01/01/2016");
-            author.ImageUrl = "@/images/default/author_image.jpg";
+            author.ImageUrl = @"/images/default/author_image.jpg";
             book.Name = "Kolima-Magadan road";
             Genre genre = new Genre();
             genre.Name = "History";
