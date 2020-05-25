@@ -17,7 +17,7 @@
             @Html.DisplayNameFor(model => model.Patronymic)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DateOfBirth)
+            @Html.DisplayNameFor(model => model.BirthDate)
         </th>
         
     </tr>
@@ -37,7 +37,7 @@
                 @Html.DisplayFor(modelItem => item.Patronymic)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DateOfBirth)
+                @Html.DisplayFor(modelItem => item.BirthDate)
             </td>
             <td>
                 @Html.ActionLink("Details", "Author/" + item.AuthorId)

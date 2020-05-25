@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DomainAccess.Entities
+namespace DataAccess.Entities
 {
     public class Author
     {
@@ -15,27 +15,23 @@ namespace DomainAccess.Entities
         [StringLength(50)]
         public string Name { get; set; }
 
-        [Required]
         [Index]
         [StringLength(50)]
         public string Surname { get; set; }
 
-        [Required]
         [StringLength(50)]
         public string Patronymic { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime DateOfBirth { get; set; }
+        public DateTime BirthDate { get; set; }
 
-        public string Image { get; set; }
+        public string ImageUrl { get; set; }
 
-        [Required]
-        public virtual ICollection<Book> AuthorsBooks { get; set; }
+        public virtual List<Book> Books { get; set; }
 
         public Author()
         {
-            AuthorsBooks = new HashSet<Book>();
+            Books = new List<Book>();
         }
-
     }
 }

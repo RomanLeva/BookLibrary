@@ -1,5 +1,5 @@
 ﻿using System;
-using WebUI.Infrastructure;
+using WebUI.Mappings;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -17,12 +17,6 @@ namespace WebUI
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            //ControllerBuilder.Current.SetControllerFactory(new MyNinjectControllerFactory());
         }
-        //protected void Application_Error()
-        //{
-        //    var ex = Server.GetLastError();
-            
-        //}
     }
 }

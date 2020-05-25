@@ -1,20 +1,19 @@
+using System;
+using System.Web;
+using AutoMapper;
+using BusinessLogic.Mappings;
+using BusinessLogic.Interfaces;
+using BusinessLogic.Services;
+using Microsoft.Web.Infrastructure.DynamicModuleHelper;
+using Ninject;
+using Ninject.Web.Common;
+using WebUI.Mappings;
+
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(WebUI.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(WebUI.App_Start.NinjectWebCommon), "Stop")]
 
 namespace WebUI.App_Start
 {
-    using System;
-    using System.Web;
-    using AutoMapper;
-    using BusinessLogic.Infrastructure;
-    using BusinessLogic.Interfaces;
-    using BusinessLogic.Services;
-    using Microsoft.Web.Infrastructure.DynamicModuleHelper;
-
-    using Ninject;
-    using Ninject.Web.Common;
-    using WebUI.Infrastructure;
-
     public static class NinjectWebCommon 
     {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
@@ -68,14 +67,17 @@ namespace WebUI.App_Start
         private static void RegisterServices(IKernel kernel)
         {
             kernel.Load(new ServiceModule());
+
             kernel.Bind<IBookService>().To<BookService>();
             kernel.Bind<IAuthorService>().To<AuthorService>();
             kernel.Bind<IGenreService>().To<GenreService>();
             kernel.Bind<IWebApiService>().To<WebApiService>();
+
             var mapperConfiguration = new MapperConfiguration(config => {
-                config.AddProfile<MyAutoMapperViewAndDto>();
+                config.AddProfile<AutoMapperViewAndDtoProfile>();
+                config.AddProfile<AutoMapperEntityAndDtoProfile>();
             });
-            
+            kernel.Bind<IMapper>().ToConstructor(c => new Mapper(mapperConfiguration)).InSingletonScope();
         }        
     }
 }

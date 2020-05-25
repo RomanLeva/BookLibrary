@@ -5,12 +5,12 @@ namespace BusinessLogic.Interfaces
 {
     public interface IWebApiService
     {
-        List<BookDTO> GetBooks();
-        BookDTO GetBook(int id);
-        void CreateOrUpdateBook(BookDTO book);
+        List<BookDto> GetBooks();
+        BookDto GetBook(int id);
+        void CreateOrUpdateBook(BookDto book);
         void DeleteBook(int id);
         string GetBookStat(int id);
-        List<AuthorDTO> GetAuthors();
-        List<GenreDTO> GetGenres();
+        List<AuthorDto> GetAuthors();
+        List<GenreDto> GetGenres();
     }
 }

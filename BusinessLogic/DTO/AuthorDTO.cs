@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLogic.DTO
 {
-    public class AuthorDTO
+    public class AuthorDto
     {
         public int AuthorId { get; set; }
 
@@ -16,15 +13,10 @@ namespace BusinessLogic.DTO
 
         public string Patronymic { get; set; }
 
-        public DateTime DateOfBirth { get; set; }
+        public DateTime BirthDate { get; set; }
 
-        public string Image { get; set; }
+        public string ImageUrl { get; set; }
 
-        public ICollection<BookDTO> AuthorsBooks { get; set; }
-
-        public AuthorDTO()
-        {
-            AuthorsBooks = new HashSet<BookDTO>();
-        }
+        public List<BookDto> Books { get; set; }
     }
 }

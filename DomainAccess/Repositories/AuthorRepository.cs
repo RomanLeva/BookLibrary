@@ -2,74 +2,62 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using DomainAccess.Abstract;
-using DomainAccess.Entities;
-using DomainAccess.EntityFramework;
+using DataAccess.Abstract;
+using DataAccess.Entities;
+using DataAccess.EntityFramework;
 
-namespace DomainAccess.Repositories
+namespace DataAccess.Repositories
 {
     public class AuthorRepository : IAuthorRepository
     {
-        private EFDBContext context;
+        private readonly EFDBContext _context;
         static AuthorRepository()
         {
             // the terrible hack, force downloading dll
             var ensureDLLIsCopied = System.Data.Entity.SqlServer.SqlProviderServices.Instance;
         }
 
-        public bool TestConnection()
-        {
-            try
-            {
-                context.Database.Exists();
-                context.Database.Connection.Open();
-                context.Database.Connection.Close();
-            }
-            catch { return false; }
-            return true;
-        }
-
         public AuthorRepository(EFDBContext dbContext)
         {
-            context = dbContext;
+            _context = dbContext;
         }
 
         public void Create(Author item)
         {
             if (item == null) return;
-            context.Authors.Add(item);
-            context.SaveChanges();
+            _context.Authors.Add(item);
+            _context.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            context.Authors.Remove(context.Authors.Find(id));
-            context.SaveChanges();
+            _context.Authors.Remove(_context.Authors.Find(id));
+            _context.SaveChanges();
         }
 
         public List<Author> Find(Func<Author, bool> predicate)
         {
-            var set = context.Authors.Where(predicate).ToList();
+            var set = _context.Authors.Where(predicate).ToList();
             return set;
         }
 
         public Author Get(int id)
         {
-            return context.Authors.Where(x => x.AuthorId == id).Include(b => b.AuthorsBooks).FirstOrDefault();
+            return _context.Authors.Where(x => x.AuthorId == id).Include(b => b.Books).FirstOrDefault();
         }
 
         public List<Author> GetAll()
         {
-            return context.Authors.ToList();
+            return _context.Authors.ToList();
         }
 
         public void Update(Author item)
         {
-            var dbEntry = context.Authors.FirstOrDefault(x => x.AuthorId == item.AuthorId);
+            var dbEntry = _context.Authors.FirstOrDefault(x => x.AuthorId == item.AuthorId);
             if (dbEntry != null)
             {
-                context.Entry(dbEntry).CurrentValues.SetValues(item);
-                context.SaveChanges();
+                _context.Entry(dbEntry).CurrentValues.SetValues(item);
+                _context.SaveChanges();
             }
         }
     }

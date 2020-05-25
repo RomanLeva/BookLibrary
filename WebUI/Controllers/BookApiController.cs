@@ -8,7 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using WebUI.Infrastructure;
+using WebUI.Mappings;
 using WebUI.Models;
 
 namespace WebUI.Controllers
@@ -16,30 +16,30 @@ namespace WebUI.Controllers
     public class BookApiController : ApiController
     {
         // /api/bookapi/3232
-        private IMapper mapper;
-        public IWebApiService webService;
+        private readonly IMapper _mapper;
+        private readonly IWebApiService _webService;
 
         public BookApiController(IWebApiService webService)
         {
-            this.webService = webService;
+            _webService = webService;
             var mapperConfiguration = new MapperConfiguration(config => {
-                config.AddProfile<MyAutoMapperViewAndDto>();
+                config.AddProfile<AutoMapperViewAndDtoProfile>();
                 config.ForAllMaps((typeMap, mappingExpression) => mappingExpression.MaxDepth(1));
             });
-            mapper = new Mapper(mapperConfiguration);
+            _mapper = new Mapper(mapperConfiguration);
         }
  
         [HttpGet]
-        public List<BookDTO> GetBooks()
+        public List<BookDto> GetBooks()
         {
-            return webService.GetBooks();
+            return _webService.GetBooks();
         }
 
         [HttpGet]
         public BookViewModel GetBook(int id)
         {
-            var dtoObj = webService.GetBook(id);
-            var viewObj = mapper.Map<BookViewModel>(dtoObj);
+            var dtoObj = _webService.GetBook(id);
+            var viewObj = _mapper.Map<BookViewModel>(dtoObj);
             return viewObj;
             //if (obj == null)
             //{
@@ -65,14 +65,14 @@ namespace WebUI.Controllers
             //}
         }
         [HttpPost]
-        public void PostBook(BookDTO book)
+        public void PostBook(BookDto book)
         {
-            webService.CreateOrUpdateBook(book);
+            _webService.CreateOrUpdateBook(book);
         }
         [HttpDelete]
         public void DeleteBook(int id)
         {
-            webService.DeleteBook(id);
+            _webService.DeleteBook(id);
         }
     }
 }

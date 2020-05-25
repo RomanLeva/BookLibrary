@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebUI.Models
 {
@@ -14,12 +12,6 @@ namespace WebUI.Models
         [StringLength(50)]
         public string Name { get; set; }
 
-        [Required]
-        public ICollection<BookViewModel> Books { get; set; }
-
-        public GenreViewModel()
-        {
-            Books = new HashSet<BookViewModel>();
-        }
+        public List<BookViewModel> Books { get; set; }
     }
 }

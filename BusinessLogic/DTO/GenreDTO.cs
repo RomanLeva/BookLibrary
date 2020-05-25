@@ -1,22 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace BusinessLogic.DTO
 {
-    public class GenreDTO
+    public class GenreDto
     {
         public int GenreId { get; set; }
 
         public string Name { get; set; }
 
-        public ICollection<BookDTO> Books { get; set; }
-
-        public GenreDTO()
-        {
-            Books = new HashSet<BookDTO>();
-        }
+        public List<BookDto> Books { get; set; }
     }
 }

@@ -68,27 +68,28 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTO\AuthorDTO.cs" />
-    <Compile Include="DTO\BookDTO.cs" />
-    <Compile Include="DTO\GenreDTO.cs" />
-    <Compile Include="Infrastructure\BookStatUtils.cs" />
-    <Compile Include="Infrastructure\MyAutoMapperEntityAndDto.cs" />
+    <Compile Include="DTO\AuthorDto.cs" />
+    <Compile Include="DTO\BookDto.cs" />
+    <Compile Include="DTO\GenreDto.cs" />
+    <Compile Include="Services\Book\TextStatisticsUtils.cs" />
+    <Compile Include="Mappings\AutoMapperEntityAndDtoProfile.cs" />
     <Compile Include="Infrastructure\ServiceModule.cs" />
-    <Compile Include="Infrastructure\TableGenerator.cs" />
-    <Compile Include="Interfaces\IAuthorService.cs" />
-    <Compile Include="Interfaces\IBookService.cs" />
-    <Compile Include="Interfaces\IGenreService.cs" />
-    <Compile Include="Interfaces\IWebApiService.cs" />
+    <Compile Include="Infrastructure\SqlBulkDataTableWriter.cs" />
+    <Compile Include="Services\Book\TableGenerator.cs" />
+    <Compile Include="Services\Author\IAuthorService.cs" />
+    <Compile Include="Services\Book\IBookService.cs" />
+    <Compile Include="Services\Genre\IGenreService.cs" />
+    <Compile Include="Services\WebApi\IWebApiService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\AuthorService.cs" />
-    <Compile Include="Services\BookService.cs" />
-    <Compile Include="Services\GenreService.cs" />
-    <Compile Include="Services\WebApiService.cs" />
+    <Compile Include="Services\Author\AuthorService.cs" />
+    <Compile Include="Services\Book\BookService.cs" />
+    <Compile Include="Services\Genre\GenreService.cs" />
+    <Compile Include="Services\WebApi\WebApiService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DomainAccess\DomainAccess.csproj">
+    <ProjectReference Include="..\DomainAccess\BookLibrary.DataAccess.csproj">
       <Project>{d2c9cfdd-6351-4d79-be5c-0a3f934d49d4}</Project>
-      <Name>DomainAccess</Name>
+      <Name>BookLibrary.DataAccess</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -97,5 +98,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

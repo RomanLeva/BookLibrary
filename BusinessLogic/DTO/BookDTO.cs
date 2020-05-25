@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BusinessLogic.DTO
 {
-    public class BookDTO
+    public class BookDto
     {
         public int BookId { get; set; }
 
@@ -11,22 +11,16 @@ namespace BusinessLogic.DTO
 
         public string Description { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTime PublicationDate { get; set; }
 
-        public string ISBN { get; set; }
+        public string Isbn { get; set; }
 
         public string Text { get; set; }
 
-        public string Image { get; set; }
+        public string ImageUrl { get; set; }
 
-        public ICollection<AuthorDTO> Authors { get; set; } // lazy loading
+        public List<AuthorDto> Authors { get; set; }
 
-        public ICollection<GenreDTO> Genres { get; set; }
-
-        public BookDTO()
-        {
-            Authors = new HashSet<AuthorDTO>();
-            Genres = new HashSet<GenreDTO>();
-        }
+        public List<GenreDto> Genres { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System.Web.Http;
-using WebUI.Infrastructure;
+using WebUI.Mappings;
 using Ninject;
 
 namespace WebUI.App_Start

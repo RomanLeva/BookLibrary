@@ -3,35 +3,31 @@ using BusinessLogic.Interfaces;
 using WebUI.Models;
 using AutoMapper;
 using System.Collections.Generic;
-using WebUI.Infrastructure;
 
 namespace WebUI.Controllers
 {
     public class GenresController : Controller
     {
-        private readonly IGenreService genreService;
-        private IMapper mapper;
+        private readonly IGenreService _genreService;
+        private readonly IMapper _mapper;
 
-        public GenresController(IGenreService genreService)
+        public GenresController(IGenreService genreService, IMapper mapper)
         {
-            this.genreService = genreService;
-            var mapperConfiguration = new MapperConfiguration(config => {
-                config.AddProfile<MyAutoMapperViewAndDto>();
-            });
-            mapper = new Mapper(mapperConfiguration);
+            _genreService = genreService;
+            _mapper = mapper;
         }
         // GET: Genres
         public ActionResult Genres()
         {
-            var dtoObjs = genreService.GetAll();
-            var viewObjs = mapper.Map<List<GenreViewModel>>(dtoObjs);
+            var dtoObjs = _genreService.GetAll();
+            var viewObjs = _mapper.Map<List<GenreViewModel>>(dtoObjs);
             return View(viewObjs);
         }
         // GET: One genre
         public ActionResult Genre(int id)
         {
-            var dtoObj = genreService.GetOne(id);
-            var viewObj = mapper.Map<GenreViewModel>(dtoObj);
+            var dtoObj = _genreService.GetById(id);
+            var viewObj = _mapper.Map<GenreViewModel>(dtoObj);
             return View(viewObj);
         }
     }

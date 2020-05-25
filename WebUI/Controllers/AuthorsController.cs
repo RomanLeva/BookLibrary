@@ -3,37 +3,33 @@ using BusinessLogic.Interfaces;
 using WebUI.Models;
 using AutoMapper;
 using System.Collections.Generic;
-using WebUI.Infrastructure;
 
 namespace WebUI.Controllers
 {
     public class AuthorsController : Controller
     {
-        private readonly IAuthorService authorService;
-        private IMapper mapper;
+        private readonly IAuthorService _authorService;
+        private readonly IMapper _mapper;
 
-        public AuthorsController(IAuthorService authorService)
+        public AuthorsController(IAuthorService authorService, IMapper mapper)
         {
-            this.authorService = authorService;
-            var mapperConfiguration = new MapperConfiguration(config => {
-                config.AddProfile<MyAutoMapperViewAndDto>();
-            });
-            mapper = new Mapper(mapperConfiguration);
+            _authorService = authorService;
+            _mapper = mapper;
         }
 
         // GET: Authors
         public ActionResult Authors()
         {
-            var dtoObjs = authorService.GetAll();
-            var viewObjs = mapper.Map<List<AuthorViewModel>>(dtoObjs);
+            var dtoObjs = _authorService.GetAll();
+            var viewObjs = _mapper.Map<List<AuthorViewModel>>(dtoObjs);
             return View(viewObjs);
         }
 
         // GET: One author
         public ActionResult Author(int id)
         {
-            var dtoObj = authorService.GetOne(id);
-            var viewObj = mapper.Map<AuthorViewModel>(dtoObj);
+            var dtoObj = _authorService.GetById(id);
+            var viewObj = _mapper.Map<AuthorViewModel>(dtoObj);
             return View(viewObj);
         }
     }

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DomainAccess.Entities
+namespace DataAccess.Entities
 {
     public class Genre
     {
@@ -14,12 +14,11 @@ namespace DomainAccess.Entities
         [StringLength(50)]
         public string Name { get; set; }
 
-        [Required]
-        public virtual ICollection<Book> Books { get; set; }
+        public virtual List<Book> Books { get; set; }
 
         public Genre()
         {
-            Books = new HashSet<Book>();
+            Books = new List<Book>();
         }
     }
 }

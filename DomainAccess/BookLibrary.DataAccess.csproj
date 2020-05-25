@@ -57,6 +57,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -75,9 +76,9 @@
     <Compile Include="Entities\Book.cs" />
     <Compile Include="Entities\Genre.cs" />
     <Compile Include="EntityFramework\EFDBContext.cs" />
-    <Compile Include="Migrations\202005131311415_Inital.cs" />
-    <Compile Include="Migrations\202005131311415_Inital.designer.cs">
-      <DependentUpon>202005131311415_Inital.cs</DependentUpon>
+    <Compile Include="Migrations\202005251624024_Initial.cs" />
+    <Compile Include="Migrations\202005251624024_Initial.designer.cs">
+      <DependentUpon>202005251624024_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -107,8 +108,8 @@
     <Content Include="test_pict.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202005131311415_Inital.resx">
-      <DependentUpon>202005131311415_Inital.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202005251624024_Initial.resx">
+      <DependentUpon>202005251624024_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

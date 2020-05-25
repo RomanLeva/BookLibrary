@@ -2,74 +2,61 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using DomainAccess.Abstract;
-using DomainAccess.Entities;
-using DomainAccess.EntityFramework;
+using DataAccess.Abstract;
+using DataAccess.Entities;
+using DataAccess.EntityFramework;
 
-namespace DomainAccess.Repositories
+namespace DataAccess.Repositories
 {
     public class GenreRepository : IGenreRepository
     {
-        private EFDBContext context;
+        private readonly EFDBContext _context;
         static GenreRepository()
         {
             // the terrible hack, force downloading dll
             var ensureDLLIsCopied = System.Data.Entity.SqlServer.SqlProviderServices.Instance;
         }
-
-        public bool TestConnection()
-        {
-            try
-            {
-                context.Database.Exists();
-                context.Database.Connection.Open();
-                context.Database.Connection.Close();
-            }
-            catch { return false; }
-            return true;
-        }
-
         public GenreRepository(EFDBContext dbContext)
         {
-            context = dbContext;
+            _context = dbContext;
         }
 
         public void Create(Genre item)
         {
             if (item == null) return;
-            context.Genres.Add(item);
-            context.SaveChanges();
+            _context.Genres.Add(item);
+            _context.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            context.Genres.Remove(context.Genres.Find(id));
-            context.SaveChanges();
+            _context.Genres.Remove(_context.Genres.Find(id));
+            _context.SaveChanges();
         }
 
         public List<Genre> Find(Func<Genre, bool> predicate)
         {
-            var set = context.Genres.Where(predicate).ToList();
+            var set = _context.Genres.Where(predicate).ToList();
             return set;
         }
 
         public Genre Get(int id)
         {
-            return context.Genres.Where(x => x.GenreId == id).Include(b => b.Books).FirstOrDefault();
+            return _context.Genres.Where(x => x.GenreId == id).Include(b => b.Books).FirstOrDefault();
         }
 
         public List<Genre> GetAll()
         {
-            return context.Genres.ToList();
+            return _context.Genres.ToList();
         }
 
         public void Update(Genre item)
         {
-            var dbEntry = context.Genres.FirstOrDefault(x => x.GenreId == item.GenreId);
+            var dbEntry = _context.Genres.FirstOrDefault(x => x.GenreId == item.GenreId);
             if (dbEntry != null)
             {
-                context.Entry(dbEntry).CurrentValues.SetValues(item);
-                context.SaveChanges();
+                _context.Entry(dbEntry).CurrentValues.SetValues(item);
+                _context.SaveChanges();
             }
         }
     }

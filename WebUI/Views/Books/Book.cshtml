@@ -1,30 +1,30 @@
-﻿@model WebUI.Models.BookViewModel
+﻿@model WebUI.Models.PageViewModel
 
 <div id="book" class="item">
-    <h3>ID - @Model.BookId</h3>
-    <p>Name - @Model.Name</p>
-    <p>Description - @Model.Description</p>
-    <p>ISBN - @Model.ISBN</p>
-    <p>Date - @Model.Date</p>
-    <img width="300" height="300" src="@Model.Image" />
+    <h3>ID - @Model.BookViewModels.FirstOrDefault().BookId</h3>
+    <p>Name - @Model.BookViewModels.FirstOrDefault().Name</p>
+    <p>Description - @Model.BookViewModels.FirstOrDefault().Description</p>
+    <p>ISBN - @Model.BookViewModels.FirstOrDefault().Isbn</p>
+    <p>Date - @Model.BookViewModels.FirstOrDefault().PublicationDate.Date</p>
+    <img width="300" height="300" src="@Model.BookViewModels.FirstOrDefault().ImageUrl" />
     <p>Authors:</p>
     <ul>
-        @foreach (var a in Model.Authors)
+        @foreach (var author in Model.BookViewModels.FirstOrDefault().Authors)
         {
-            <li>@Html.ActionLink(a.Name + " " + a.Surname, "Author/" + a.AuthorId, "Authors")</li>
+            <li>@Html.ActionLink(author.Name + " " + author.Surname, "Author/" + author.AuthorId, "Authors")</li>
         }
     </ul>
     <p>Genres:</p>
     <ul>
-        @foreach (var g in Model.Genres)
+        @foreach (var genre in Model.BookViewModels.FirstOrDefault().Genres)
         {
-            <li>@Html.ActionLink(g.Name, "Genre/" + g.GenreId, "Genres")</li>
+            <li>@Html.ActionLink(genre.Name, "Genre/" + genre.GenreId, "Genres")</li>
         }
     </ul>
     <div class="statistics">
-        @ViewBag.Stat
+        @Model.PageStatistics
     </div>
-    <main>@Model.Text</main>
+    <main>@Model.BookViewModels.FirstOrDefault().Text</main>
 
 </div>
 

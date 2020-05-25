@@ -67,17 +67,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BusinessLogic\BusinessLogic.csproj">
+    <ProjectReference Include="..\BusinessLogic\BookLibrary.BusinessLogic.csproj">
       <Project>{09eb3519-5279-421d-b366-78861fe13172}</Project>
-      <Name>BusinessLogic</Name>
+      <Name>BookLibrary.BusinessLogic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DomainAccess\DomainAccess.csproj">
+    <ProjectReference Include="..\DomainAccess\BookLibrary.DataAccess.csproj">
       <Project>{d2c9cfdd-6351-4d79-be5c-0a3f934d49d4}</Project>
-      <Name>DomainAccess</Name>
+      <Name>BookLibrary.DataAccess</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WebUI\WebUI.csproj">
+    <ProjectReference Include="..\WebUI\BookLibrary.WebUI.csproj">
       <Project>{bc5c16a8-b86f-4dca-b8ab-3ae1b8d4a331}</Project>
-      <Name>WebUI</Name>
+      <Name>BookLibrary.WebUI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

@@ -1,9 +1,9 @@
-﻿namespace DomainAccess.Migrations
+﻿namespace DataAccess.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Inital : DbMigration
+    public partial class Initial : DbMigration
     {
         public override void Up()
         {
@@ -13,10 +13,10 @@
                     {
                         AuthorId = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false, maxLength: 50),
-                        Surname = c.String(nullable: false, maxLength: 50),
-                        Patronymic = c.String(nullable: false, maxLength: 50),
-                        DateOfBirth = c.DateTime(nullable: false, storeType: "date"),
-                        Image = c.String(),
+                        Surname = c.String(maxLength: 50),
+                        Patronymic = c.String(maxLength: 50),
+                        BirthDate = c.DateTime(nullable: false, storeType: "date"),
+                        ImageUrl = c.String(),
                     })
                 .PrimaryKey(t => t.AuthorId)
                 .Index(t => t.Name)
@@ -27,12 +27,12 @@
                 c => new
                     {
                         BookId = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false, maxLength: 50),
+                        Name = c.String(nullable: false, maxLength: 40),
                         Description = c.String(),
-                        Date = c.DateTime(nullable: false, storeType: "date"),
-                        ISBN = c.String(maxLength: 100),
+                        PublicationDate = c.DateTime(nullable: false, storeType: "date"),
+                        Isbn = c.String(maxLength: 100),
                         Text = c.String(),
-                        Image = c.String(),
+                        ImageUrl = c.String(),
                     })
                 .PrimaryKey(t => t.BookId)
                 .Index(t => t.Name);

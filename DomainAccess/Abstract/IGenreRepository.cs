@@ -1,8 +1,8 @@
-﻿using DomainAccess.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using DataAccess.Entities;
 
-namespace DomainAccess.Abstract
+namespace DataAccess.Abstract
 {
     public interface IGenreRepository
     {

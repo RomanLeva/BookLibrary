@@ -173,11 +173,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\MyAutoMapperViewAndDto.cs" />
+    <Compile Include="Mappings\AutoMapperViewAndDtoProfile.cs" />
     <Compile Include="Models\AuthorViewModel.cs" />
-    <Compile Include="Models\BookJson.cs" />
     <Compile Include="Models\BookViewModel.cs" />
     <Compile Include="Models\GenreViewModel.cs" />
+    <Compile Include="Models\PageViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -245,9 +245,9 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BusinessLogic\BusinessLogic.csproj">
+    <ProjectReference Include="..\BusinessLogic\BookLibrary.BusinessLogic.csproj">
       <Project>{09eb3519-5279-421d-b366-78861fe13172}</Project>
-      <Name>BusinessLogic</Name>
+      <Name>BookLibrary.BusinessLogic</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

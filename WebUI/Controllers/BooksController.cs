@@ -1,54 +1,61 @@
 ﻿using System;
 using System.Web.Mvc;
 using BusinessLogic.Interfaces;
-using BusinessLogic.Infrastructure;
+using BusinessLogic.Mappings;
 using WebUI.Models;
 using AutoMapper;
 using System.Collections.Generic;
 using BusinessLogic.DTO;
-using WebUI.Infrastructure;
 using System.Web;
 using System.IO;
-using System.Text;
+using Castle.Core.Internal;
 
 namespace WebUI.Controllers
 {
     public class BooksController : Controller
     {
-        private readonly IBookService bookService;
-        private readonly IAuthorService authorService;
-        private readonly IGenreService genreService;
-        private IMapper mapper;
-        private int pagesize = 30;
+        private readonly IBookService _bookService;
+        private readonly IAuthorService _authorService;
+        private readonly IGenreService _genreService;
+        private readonly IMapper _mapper;
+        private readonly int _pagesize = 30;
 
-        public BooksController(IBookService bookService, IAuthorService authorService, IGenreService genreService)
+        public BooksController(IBookService bookService, IAuthorService authorService, IGenreService genreService, IMapper mapper)
         {
-            this.bookService = bookService;
-            this.authorService = authorService;
-            this.genreService = genreService;
-            var mapperConfiguration = new MapperConfiguration(config => {
-                config.AddProfile<MyAutoMapperViewAndDto>();
-            });
-            mapper = new Mapper(mapperConfiguration);
+            _bookService = bookService;
+            _authorService = authorService;
+            _genreService = genreService;
+            _mapper = mapper;
         }
         // GET: Books
         public ActionResult Books(int? id)
         {
             var pageNumber = id ?? 1;
-            var dtoObjs = bookService.GetAll();
-            var viewObjs = mapper.Map<List<BookViewModel>>(dtoObjs);
-            ViewBag.PageNumber = pageNumber;
-            ViewBag.PageSize = pagesize;
-            ViewBag.ObjectsCount = viewObjs.Count;
-            return View(viewObjs);
+
+            var dtoObjs = _bookService.GetAll();
+
+            var pageViewObj = new PageViewModel
+            {
+                BookViewModels = _mapper.Map<List<BookViewModel>>(dtoObjs),
+                PageNumber = pageNumber,
+                PageSize = _pagesize
+            };
+
+            return View(pageViewObj);
         }
         // GET: One book
         public ActionResult Book(int id)
         {
-            var dtoObj = bookService.GetOne(id);
-            var viewObj = mapper.Map<BookViewModel>(dtoObj);
-            ViewBag.Stat = GetBookStatistics(viewObj);
-            return View(viewObj);
+            var dtoObj = _bookService.GetById(id);
+            var viewObj = _mapper.Map<BookViewModel>(dtoObj);
+
+            var pageViewObj = new PageViewModel
+            {
+                BookViewModels = new List<BookViewModel> { viewObj },
+                PageStatistics = GetBookStatistics(viewObj)
+            };
+
+            return View(pageViewObj);
         }
         [HttpPost]
         public ActionResult Edit(BookViewModel item, HttpPostedFileBase imageFile, HttpPostedFileBase textFile, string authorid, string genreid)
@@ -57,32 +64,37 @@ namespace WebUI.Controllers
             {
                 if (imageFile != null)
                 {
-
                     var image = new byte[imageFile.ContentLength];
                     imageFile.InputStream.Read(image, 0, imageFile.ContentLength);
-                    var path = Server.MapPath(@"/images/" + item.Name + ".jpg");
+
+                    var path = Server.MapPath(@"/images/books/" + item.Name + ".jpg");
                     System.IO.File.WriteAllBytes(path, image);
-                    item.Image = "/images/" + item.Name + ".jpg";
+
+                    item.ImageUrl = "/images/books/" + item.Name + ".jpg";
                 }
                 if (textFile != null)
                 {
                     item.Text = new StreamReader(textFile.InputStream).ReadToEnd();
                 }
-                var dtoObj = mapper.Map<BookDTO>(item);
-                var authorDto = authorService.GetOne(int.Parse(authorid));
+
+                var dtoObj = _mapper.Map<BookDto>(item);
+                var authorDto = _authorService.GetById(int.Parse(authorid));
                 dtoObj.Authors.Add(authorDto);
-                var genreDto = genreService.GetOne(int.Parse(genreid));
+
+                var genreDto = _genreService.GetById(int.Parse(genreid));
                 dtoObj.Genres.Add(genreDto);
+
                 if (item.BookId == 0) // creating new book
                 {
-                    bookService.Create(dtoObj);
+                    _bookService.Create(dtoObj);
                 }
                 else // editing some book
                 {
-                    bookService.Update(dtoObj);
+                    _bookService.Update(dtoObj);
                 }
 
                 TempData["msg"] = string.Format("{0} has been saved", item.Name);
+
                 return RedirectToAction("Books");
             } catch(Exception e) {
                 Console.WriteLine(e.Message);
@@ -93,56 +105,71 @@ namespace WebUI.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            var dtoObj = bookService.GetOne(id);
-            var viewObj = mapper.Map<BookViewModel>(dtoObj);
-            var dtoObjsA = authorService.GetAll();
-            var viewObjsA = mapper.Map<List<AuthorViewModel>>(dtoObjsA);
-            ViewBag.Authors = viewObjsA;
-            var dtoObjsG = genreService.GetAll();
-            var viewObjsG = mapper.Map<List<GenreViewModel>>(dtoObjsG);
-            ViewBag.Genres = viewObjsG;
-            return View(viewObj);
+            var dtoBookObj = _bookService.GetById(id);
+            var viewBookObj = _mapper.Map<BookViewModel>(dtoBookObj);
+
+            var dtoAuthorObjs = _authorService.GetAll();
+            var viewAuthorObjs = _mapper.Map<List<AuthorViewModel>>(dtoAuthorObjs);
+            var dtoGenreObjs = _genreService.GetAll();
+            var viewGenreObjs = _mapper.Map<List<GenreViewModel>>(dtoGenreObjs);
+
+            var pageViewObj = new PageViewModel
+            {
+                BookViewModels = new List<BookViewModel> { viewBookObj },
+                AuthorViewModels = viewAuthorObjs,
+                GenreViewModels = viewGenreObjs
+            };
+
+            return View(pageViewObj);
         }
         public ActionResult Delete(int id)
         {
-            bookService.Delete(id);
+            _bookService.Delete(id);
             return RedirectToAction("Books");
         }
         public ActionResult Create()
         {
-            var dtoObjsA = authorService.GetAll();
-            var viewObjsA = mapper.Map<List<AuthorViewModel>>(dtoObjsA);
-            ViewBag.Authors = viewObjsA;
-            var dtoObjsG = genreService.GetAll();
-            var viewObjsG = mapper.Map<List<GenreViewModel>>(dtoObjsG);
-            ViewBag.Genres = viewObjsG;
-            return View("Edit", new BookViewModel());
+            var dtoAuthorObjs = _authorService.GetAll();
+            var viewAuthorObjs = _mapper.Map<List<AuthorViewModel>>(dtoAuthorObjs);
+            var dtoGenreObjs = _genreService.GetAll();
+            var viewGenreObjs = _mapper.Map<List<GenreViewModel>>(dtoGenreObjs);
+
+            var pageViewObj = new PageViewModel
+            {
+                BookViewModels = new List<BookViewModel> { new BookViewModel() },
+                AuthorViewModels = viewAuthorObjs,
+                GenreViewModels = viewGenreObjs
+            };
+
+            return View("Edit", pageViewObj);
         }
         public ActionResult Search(string BookName, string AuthorName, string Genre, string Date)
         {
-            var dtoObjs = bookService.Search(BookName, AuthorName, Genre, Date);
-            var viewObjs = mapper.Map<List<BookViewModel>>(dtoObjs);
-            ViewBag.PageNumber = 1;
-            ViewBag.PageSize = pagesize;
-            ViewBag.ObjectsCount = viewObjs.Count;
-            return View("Books", viewObjs);
+            var dtoObjs = _bookService.Search(BookName, AuthorName, Genre, Date);
+
+            var pageViewObj = new PageViewModel
+            {
+                BookViewModels = _mapper.Map<List<BookViewModel>>(dtoObjs),
+                PageNumber = 1,
+                PageSize = _pagesize
+            };
+
+            return View("Books", pageViewObj);
         }
         private string GetBookStatistics(BookViewModel book)
         {
             string text = book.Text;
-            if (text == null || text == "") return "";
-            StringBuilder sb = new StringBuilder();
-            sb.Append("Text length: ").Append(BookStatUtils.TextLength(text)).AppendLine();
-            sb.Append("Words count: ").Append(BookStatUtils.WordsCount(text)).AppendLine();
-            sb.Append("Unique words: ").Append(BookStatUtils.UniqueWordsCount(text)).AppendLine();
-            sb.Append("Middle word length: ").Append(BookStatUtils.MiddleWordLegth(text)).AppendLine();
-            sb.Append("Middle sentence length: ").Append(BookStatUtils.MiddleSentenceLength(text)).AppendLine();
-            return sb.ToString();
+            if (text.IsNullOrEmpty())
+            {
+                return "";
+            }
+            return TextStatisticsUtils.GetStatisticString(text);
+            
         }
 
         public ActionResult Fill()
         {
-            bookService.FillStorageWithFakeUsers();
+            _bookService.FillStorageWithFakeUsers();
             TempData["msg"] = "Started creating alot of books in database";
             return RedirectToAction("Books");
         }

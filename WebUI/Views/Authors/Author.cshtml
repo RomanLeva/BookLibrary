@@ -9,11 +9,11 @@
     <p>Name - @Model.Name</p>
     <p>ISBN - @Model.Surname</p>
     <p>Date - @Model.Patronymic</p>
-    <p>Date - @Model.DateOfBirth</p>
-    <img width="300" height="300" src="@Model.Image" />
+    <p>Date - @Model.BirthDate</p>
+    <img width="300" height="300" src="@Model.ImageUrl" />
     <p>Authors books:</p>
     <ul>
-        @foreach (var b in Model.AuthorsBooks)
+        @foreach (var b in Model.Books)
         {
             <li>@Html.ActionLink(b.Name + " ", "Book/" + b.BookId, "Books")</li>
         }
