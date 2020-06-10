@@ -1,4 +1,4 @@
-﻿using BusinessLogic.DTO;
+﻿using BusinessLogic.Dto;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

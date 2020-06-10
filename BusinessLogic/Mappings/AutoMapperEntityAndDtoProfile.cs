@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BusinessLogic.DTO;
+using BusinessLogic.Dto;
 using DataAccess.Entities;
 
 namespace BusinessLogic.Mappings

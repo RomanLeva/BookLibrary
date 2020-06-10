@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using WebUI.Models;
-using BusinessLogic.DTO;
+using BusinessLogic.Dto;
 
 namespace WebUI.Mappings
 {

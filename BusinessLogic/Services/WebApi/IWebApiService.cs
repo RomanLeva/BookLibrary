@@ -1,4 +1,4 @@
-﻿using BusinessLogic.DTO;
+﻿using BusinessLogic.Dto;
 using System.Collections.Generic;
 
 namespace BusinessLogic.Interfaces

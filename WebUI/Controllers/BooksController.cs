@@ -4,7 +4,7 @@ using BusinessLogic.Mappings;
 using WebUI.Models;
 using AutoMapper;
 using System.Collections.Generic;
-using BusinessLogic.DTO;
+using BusinessLogic.Dto;
 using System.Web;
 
 namespace WebUI.Controllers

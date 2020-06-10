@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BusinessLogic.DTO;
+using BusinessLogic.Dto;
 using BusinessLogic.Interfaces;
 using DataAccess.Abstract;
 using System.Collections.Generic;

@@ -69,9 +69,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTO\AuthorDto.cs" />
-    <Compile Include="DTO\BookDto.cs" />
-    <Compile Include="DTO\GenreDto.cs" />
+    <Compile Include="Dto\AuthorDto.cs" />
+    <Compile Include="Dto\BookDto.cs" />
+    <Compile Include="Dto\GenreDto.cs" />
     <Compile Include="Services\Book\TextStatisticsUtils.cs" />
     <Compile Include="Mappings\AutoMapperEntityAndDtoProfile.cs" />
     <Compile Include="Infrastructure\ServiceModule.cs" />
