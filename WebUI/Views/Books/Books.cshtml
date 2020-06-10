@@ -104,14 +104,14 @@
 <div class="btn-group">
     @if (Model.PageNumber > 1)
     {
-        @Html.RouteLink("<<", "Books", new { controller = "Books", action = "Books", id = 1 }, new { @class = "btn btn-default" })
-        @Html.RouteLink("<", "Books", new { controller = "Books", action = "Books", id = Model.PageNumber - 1 }, new { @class = "btn btn-default" })
+        @Html.RouteLink("<<", "Books", new { controller = "Books", action = "Books", page = 1 }, new { @class = "btn btn-default" })
+        @Html.RouteLink("<", "Books", new { controller = "Books", action = "Books", page = Model.PageNumber - 1 }, new { @class = "btn btn-default" })
     }
     @if (Model.PageNumber < Math.Abs(Model.BookViewModels.Count() / Model.PageSize) + 1)
     {
-        @Html.RouteLink(">", "Books", new { controller = "Books", action = "Books", id = Model.PageNumber + 1 }, 
+        @Html.RouteLink(">", "Books", new { controller = "Books", action = "Books", page = Model.PageNumber + 1 }, 
        new { @class = "btn btn-default" })
-        @Html.RouteLink(">>", "Books", new { controller = "Books", action = "Books", id = Math.Abs(Model.BookViewModels.Count() / Model.PageSize) + 1 },
+        @Html.RouteLink(">>", "Books", new { controller = "Books", action = "Books", page = Math.Abs(Model.BookViewModels.Count() / Model.PageSize) + 1 },
        new { @class = "btn btn-default" })
     }
 

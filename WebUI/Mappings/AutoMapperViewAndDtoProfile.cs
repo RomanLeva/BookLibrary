@@ -8,12 +8,9 @@ namespace WebUI.Mappings
     {
         public AutoMapperViewAndDtoProfile()
         {
-            CreateMap<BookDto, BookViewModel>().MaxDepth(1);
-            CreateMap<AuthorDto, AuthorViewModel>().MaxDepth(1);
-            CreateMap<GenreDto, GenreViewModel>().MaxDepth(1);
-            CreateMap<BookViewModel, BookDto>().MaxDepth(1);
-            CreateMap<AuthorViewModel, AuthorDto>().MaxDepth(1);
-            CreateMap<GenreViewModel, GenreDto>().MaxDepth(1);
+            CreateMap<BookDto, BookViewModel>().ReverseMap();
+            CreateMap<AuthorDto, AuthorViewModel>().ReverseMap();
+            CreateMap<GenreDto, GenreViewModel>().ReverseMap();
         }
     }
 }

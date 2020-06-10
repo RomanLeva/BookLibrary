@@ -17,20 +17,18 @@ namespace WebUI.Controllers
             _mapper = mapper;
         }
 
-        // GET: Authors
         public ActionResult Authors()
         {
-            var dtoObjs = _authorService.GetAll();
-            var viewObjs = _mapper.Map<List<AuthorViewModel>>(dtoObjs);
-            return View(viewObjs);
+            var authorsDto = _authorService.GetAll();
+            var authorsView = _mapper.Map<List<AuthorViewModel>>(authorsDto);
+            return View(authorsView);
         }
 
-        // GET: One author
-        public ActionResult Author(int id)
+        public ActionResult Author(int authorId)
         {
-            var dtoObj = _authorService.GetById(id);
-            var viewObj = _mapper.Map<AuthorViewModel>(dtoObj);
-            return View(viewObj);
+            var authorDto = _authorService.GetById(authorId);
+            var authorView = _mapper.Map<AuthorViewModel>(authorDto);
+            return View(authorView);
         }
     }
 }

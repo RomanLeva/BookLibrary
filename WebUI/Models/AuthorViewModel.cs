@@ -23,6 +23,6 @@ namespace WebUI.Models
 
         public string ImageUrl { get; set; }
 
-        public virtual List<BookViewModel> Books { get; set; }
+        public List<BookViewModel> Books { get; set; }
     }
 }

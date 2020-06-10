@@ -16,19 +16,19 @@ namespace WebUI.Controllers
             _genreService = genreService;
             _mapper = mapper;
         }
-        // GET: Genres
+
         public ActionResult Genres()
         {
-            var dtoObjs = _genreService.GetAll();
-            var viewObjs = _mapper.Map<List<GenreViewModel>>(dtoObjs);
-            return View(viewObjs);
+            var genreDto = _genreService.GetAll();
+            var genreView = _mapper.Map<List<GenreViewModel>>(genreDto);
+            return View(genreView);
         }
-        // GET: One genre
-        public ActionResult Genre(int id)
+
+        public ActionResult Genre(int genreId)
         {
-            var dtoObj = _genreService.GetById(id);
-            var viewObj = _mapper.Map<GenreViewModel>(dtoObj);
-            return View(viewObj);
+            var genreDto = _genreService.GetById(genreId);
+            var genreView = _mapper.Map<GenreViewModel>(genreDto);
+            return View(genreView);
         }
     }
 }

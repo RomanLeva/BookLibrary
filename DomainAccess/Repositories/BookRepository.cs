@@ -28,8 +28,8 @@ namespace DataAccess.Repositories
 
             if (item.Authors.FirstOrDefault().AuthorId != 0)
             {
-                int id = item.Authors.FirstOrDefault().AuthorId;
-                var author = _context.Authors.Where(a => a.AuthorId.Equals(id)).FirstOrDefault();
+                int authorId = item.Authors.FirstOrDefault().AuthorId;
+                var author = _context.Authors.Where(a => a.AuthorId.Equals(authorId)).FirstOrDefault();
                 if (author != null)
                 {
                     item.Authors.Remove(item.Authors.FirstOrDefault());
@@ -50,10 +50,14 @@ namespace DataAccess.Repositories
             _context.SaveChanges();
         }
 
-        public void Delete(int id)
+        public void Delete(int bookId)
         {
-            _context.Books.Remove(_context.Books.Find(id));
-            _context.SaveChanges();
+            var book = _context.Books.Find(bookId);
+            if (book != null)
+            {
+                _context.Books.Remove(book);
+                _context.SaveChanges();
+            }
         }
 
         public List<Book> Find(Func<Book, bool> predicate)
@@ -62,9 +66,9 @@ namespace DataAccess.Repositories
             return set;
         }
 
-        public Book Get(int id)
+        public Book Get(int bookId)
         {
-            return _context.Books.Where(x => x.BookId == id).Include(b => b.Authors).Include(b => b.Genres).FirstOrDefault();
+            return _context.Books.Where(x => x.BookId == bookId).Include(b => b.Authors).Include(b => b.Genres).FirstOrDefault();
         }
 
         public List<Book> GetAll()
@@ -84,46 +88,6 @@ namespace DataAccess.Repositories
         public List<Book> Search(string BookName, string AuthorName, string Genre, string Date)
         {
             var books = new List<Book>();
-            //if (!string.IsNullOrEmpty(BookName))
-            //{
-            //    books.AddRange(_context.Books.Where(book => book.Name.ToLower() == BookName.ToLower()).ToList());
-            //}
-            //if (!string.IsNullOrEmpty(AuthorName))
-            //{
-            //    books.AddRange(_context.Books.
-            //        Where(b => b.Authors.Where(a => a.Name.ToLower().Equals(AuthorName.ToLower())).Count() > 0).ToList());
-            //    if (books.Count > 0)
-            //    {
-            //        var list = books.Where(book => 
-            //        book.Authors.Where(author => author.Name.ToLower().Equals(AuthorName.ToLower())).Count() > 0).ToList();
-            //        books.Clear();
-            //        books.AddRange(list);
-            //    }
-
-            //}
-            //if (!string.IsNullOrEmpty(Genre))
-            //{
-            //    if (books.Count > 0)
-            //    {
-            //        var list = books.Where(book => 
-            //        book.Genres.Where(genre => genre.Name.ToLower().Equals(Genre.ToLower())).Count() > 0).ToList();
-            //        books.Clear();
-            //        books.AddRange(list);
-            //    }
-            //    books.AddRange(_context.Books.
-            //        Where(b => b.Genres.Where(g => g.Name.ToLower().Equals(Genre.ToLower())).Count() > 0).ToList());
-            //}
-            //if (!string.IsNullOrEmpty(Date))
-            //{
-            //    if (books.Count > 0)
-            //    {
-            //        var list = books.Where(book => book.PublicationDate.Year == int.Parse(Date)).ToList();
-            //        books.Clear();
-            //        books.AddRange(list);
-            //    }
-            //    books.AddRange(_context.Books.Where(b => b.PublicationDate.Year == int.Parse(Date)).ToList());
-            //}
-
             bool byBook(Book book) => book.Name.ToLower() == BookName.ToLower();
             bool byAuthor(Book book) => book.Authors.Where(author => author.Name.ToLower().Equals(AuthorName.ToLower())).Count() > 0;
             bool byGenre(Book book) => book.Genres.Where(genre => genre.Name.ToLower().Equals(Genre.ToLower())).Count() > 0;

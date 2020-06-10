@@ -8,12 +8,9 @@ namespace BusinessLogic.Mappings
     {
         public AutoMapperEntityAndDtoProfile()
         {
-            CreateMap<BookDto, Book>();
-            CreateMap<AuthorDto, Author>();
-            CreateMap<GenreDto, Genre>();
-            CreateMap<Book, BookDto>();
-            CreateMap<Author, AuthorDto>();
-            CreateMap<Genre, GenreDto>();
+            CreateMap<BookDto, Book>().ReverseMap();
+            CreateMap<AuthorDto, Author>().ReverseMap();
+            CreateMap<GenreDto, Genre>().ReverseMap();
         }
     }
 }

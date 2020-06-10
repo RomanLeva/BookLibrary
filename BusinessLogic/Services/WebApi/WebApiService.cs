@@ -3,10 +3,9 @@ using BusinessLogic.DTO;
 using BusinessLogic.Mappings;
 using BusinessLogic.Interfaces;
 using DataAccess.Abstract;
-using DataAccess.Entities;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
+using DataAccess.Entities;
 
 namespace BusinessLogic.Services
 {
@@ -30,17 +29,25 @@ namespace BusinessLogic.Services
             var objects = _bookRep.GetAll();
             return _mapper.Map<List<BookDto>>(objects);
         }
-        public List<AuthorDto> GetAuthors()
+
+        public BookDto GetBook(int id)
         {
-            var objects = _authorRep.GetAll();
-            return _mapper.Map<List<AuthorDto>>(objects);
+            var obj = _bookRep.Get(id);
+            return _mapper.Map<BookDto>(obj);
         }
-        public List<GenreDto> GetGenres()
+
+        public void CreateOrUpdateBook(BookDto book)
         {
-            var objects = _genreRep.GetAll();
-            return _mapper.Map<List<GenreDto>>(objects);
+            var bookObj = _mapper.Map<Book>(book);
+            _bookRep.Update(bookObj);
         }
-        public string GetBookStat(int id)
+
+        public void DeleteBook(int id)
+        {
+            _bookRep.Delete(id);
+        }
+
+        public string GetBookStatistics(int id)
         {
             var book = _bookRep.Get(id);
 
@@ -58,22 +65,6 @@ namespace BusinessLogic.Services
                 return sb.ToString();
             }
             else return "";
-        }
-
-        public BookDto GetBook(int id)
-        {
-            var obj = _bookRep.Get(id);
-            return _mapper.Map<BookDto>(obj);
-        }
-
-        public void CreateOrUpdateBook(BookDto book)
-        {
-            //var obj = _mapper.Map<Book>(book);
-        }
-
-        public void DeleteBook(int id)
-        {
-            _bookRep.Delete(id);
         }
     }
 }

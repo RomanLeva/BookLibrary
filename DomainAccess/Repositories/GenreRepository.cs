@@ -40,9 +40,9 @@ namespace DataAccess.Repositories
             return set;
         }
 
-        public Genre Get(int id)
+        public Genre Get(int genreId)
         {
-            return _context.Genres.Where(x => x.GenreId == id).Include(b => b.Books).FirstOrDefault();
+            return _context.Genres.Where(x => x.GenreId == genreId).Include(b => b.Books).FirstOrDefault();
         }
 
         public List<Genre> GetAll()

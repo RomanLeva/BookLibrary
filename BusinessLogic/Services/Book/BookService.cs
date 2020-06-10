@@ -5,8 +5,10 @@ using BusinessLogic.Interfaces;
 using DataAccess.Abstract;
 using DataAccess.Entities;
 using System;
+using System.Web;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace BusinessLogic.Services
 {
@@ -21,10 +23,29 @@ namespace BusinessLogic.Services
             _mapper = mapper;
         }
 
-        public void Create(BookDto item)
+        public void Create(BookDto bookDto,
+            HttpPostedFileBase imageFile,
+            HttpPostedFileBase textFile)
         {
-            var obj = _mapper.Map<Book>(item);
-            _repository.Create(obj);
+            if (imageFile != null)
+            {
+                var image = new byte[imageFile.ContentLength];
+                imageFile.InputStream.Read(image, 0, imageFile.ContentLength);
+
+                var path = HttpContext.Current.Server.MapPath(@"/images/books/" + bookDto.Name + ".jpg");
+                System.IO.File.WriteAllBytes(path, image);
+
+                bookDto.ImageUrl = "/images/books/" + bookDto.Name + ".jpg";
+            }
+
+            if (textFile != null)
+            {
+                bookDto.Text = new StreamReader(textFile.InputStream).ReadToEnd();
+            }
+
+            var bookObj = _mapper.Map<Book>(bookDto);
+            
+            _repository.Create(bookObj);
         }
 
         public void Delete(int id)
@@ -48,10 +69,26 @@ namespace BusinessLogic.Services
             return e;
         }
 
-        public void Update(BookDto item)
+        public void Update(BookDto bookDto,
+            HttpPostedFileBase imageFile,
+            HttpPostedFileBase textFile)
         {
-            var obj = _mapper.Map<Book>(item);
-            _repository.Update(obj);
+            if (imageFile != null)
+            {
+                var image = new byte[imageFile.ContentLength];
+                imageFile.InputStream.Read(image, 0, imageFile.ContentLength);
+
+                var path = HttpContext.Current.Server.MapPath(@"/images/books/" + bookDto.Name + ".jpg");
+                System.IO.File.WriteAllBytes(path, image);
+
+                bookDto.ImageUrl = "/images/books/" + bookDto.Name + ".jpg";
+            }
+            if (textFile != null)
+            {
+                bookDto.Text = new StreamReader(textFile.InputStream).ReadToEnd();
+            }
+            var bookObj = _mapper.Map<Book>(bookDto);
+            _repository.Update(bookObj);
         }
 
         List<BookDto> IBookService.GetAll()
@@ -71,9 +108,9 @@ namespace BusinessLogic.Services
             var books = _repository.Search(BookName,AuthorName,Genre,Date);
             return _mapper.Map<List<BookDto>>(books);
         }
-        public async Task FillStorageWithFakeUsers()
+        public async Task FillStorageWithFakeBooks()
         {
-            await Task.Run(() => TableGenerator.FillStorageWithFakeUsers(10000, 1000, 100));
+            await Task.Run(() => TableGenerator.FillStorageWithFakeBooks(10000, 100, 10));
         }
     }
 }

@@ -8,7 +8,7 @@ namespace BusinessLogic.Mappings
     {
         private static readonly Random _Random = new Random();
 
-        public static void FillStorageWithFakeUsers(int BooksIdCount, int AuthorsIdCount, int GenresIdCount )
+        public static void FillStorageWithFakeBooks(int BooksIdCount, int AuthorsIdCount, int GenresIdCount )
         {
             var booksTable = CreateBooksTable(BooksIdCount);
             var authorsTable = CreateAuthorsTable(AuthorsIdCount);
