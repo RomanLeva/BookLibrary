@@ -1,9 +1,7 @@
 using System;
 using System.Web;
 using AutoMapper;
-using BusinessLogic.Mappings;
-using BusinessLogic.Interfaces;
-using BusinessLogic.Services;
+using DataAccess.Services;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Web.Common;
@@ -71,7 +69,6 @@ namespace WebUI.App_Start
             kernel.Bind<IBookService>().To<BookService>();
             kernel.Bind<IAuthorService>().To<AuthorService>();
             kernel.Bind<IGenreService>().To<GenreService>();
-            kernel.Bind<IWebApiService>().To<WebApiService>();
 
             var mapperConfiguration = new MapperConfiguration(config => {
                 config.AddProfile<AutoMapperViewAndDtoProfile>();

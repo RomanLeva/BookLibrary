@@ -1,12 +1,12 @@
-﻿using BusinessLogic.Dto;
-using System;
+﻿using DataAccess.Dto;
 using System.Collections.Generic;
 
-namespace BusinessLogic.Interfaces
+namespace DataAccess.Services
 {
     public interface IGenreService
     {
         List<GenreDto> GetAll();
+
         GenreDto GetById(int genreId);
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BusinessLogic.Dto
+namespace DataAccess.Dto
 {
     public class GenreDto
     {

@@ -71,21 +71,19 @@
   <ItemGroup>
     <Compile Include="Dto\AuthorDto.cs" />
     <Compile Include="Dto\BookDto.cs" />
+    <Compile Include="Dto\BookTextStatisticDto.cs" />
     <Compile Include="Dto\GenreDto.cs" />
     <Compile Include="Services\Book\TextStatisticsUtils.cs" />
     <Compile Include="Mappings\AutoMapperEntityAndDtoProfile.cs" />
     <Compile Include="Infrastructure\ServiceModule.cs" />
-    <Compile Include="Infrastructure\SqlBulkDataTableWriter.cs" />
     <Compile Include="Services\Book\TableGenerator.cs" />
     <Compile Include="Services\Author\IAuthorService.cs" />
     <Compile Include="Services\Book\IBookService.cs" />
     <Compile Include="Services\Genre\IGenreService.cs" />
-    <Compile Include="Services\WebApi\IWebApiService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Author\AuthorService.cs" />
     <Compile Include="Services\Book\BookService.cs" />
     <Compile Include="Services\Genre\GenreService.cs" />
-    <Compile Include="Services\WebApi\WebApiService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DomainAccess\BookLibrary.DataAccess.csproj">
@@ -97,6 +95,9 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

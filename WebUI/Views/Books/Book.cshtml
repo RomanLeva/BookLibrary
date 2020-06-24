@@ -22,7 +22,15 @@
         }
     </ul>
     <div class="statistics">
-        @Model.PageStatistics
+        @if(Model.BookTextStatistics != null)
+        {
+            <div>Text length-@Model.BookTextStatistics.TextLength,
+            Average sentence lenght - @Model.BookTextStatistics.AverageSentenceLenght,
+            Average word lenght - @Model.BookTextStatistics.AverageWordLenght,
+            Unique words-@Model.BookTextStatistics.UniqueWords,
+            Words count-@Model.BookTextStatistics.WordsCount</div>
+        }
+        
     </div>
     <main>@Model.BookViewModels.FirstOrDefault().Text</main>
 

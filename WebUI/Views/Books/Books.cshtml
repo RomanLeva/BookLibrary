@@ -60,21 +60,19 @@
         <th></th>
     </tr>
 
-    @{ 
-        long start = 0;
-        long end = 0;
+    @{
+        int toSkip = 0;
         if (Model.PageNumber == 1)
         {
-            start = 1;
-            end = Model.PageSize;
-        }
-        else
+            toSkip = 0;
+        } else
         {
-            start = (Model.PageNumber - 1) * Model.PageSize;
-            end = Model.PageNumber * Model.PageSize;
+            toSkip = (Model.PageNumber - 1) * Model.PageSize;
         }
-        var items = Model.BookViewModels.Where(book => book.BookId >= start & book.BookId <= end);
-        foreach (var item in items)
+
+        var books = Model.BookViewModels.ToArray().Skip(toSkip).Take(Model.PageSize);
+
+        foreach (var item in books)
         {
             <tr id="book">
                 <td>
@@ -99,7 +97,7 @@
                 </td>
             </tr>
         }
-        }
+    }
 </table>
 <div class="btn-group">
     @if (Model.PageNumber > 1)

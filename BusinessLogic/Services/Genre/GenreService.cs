@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
-using BusinessLogic.Dto;
-using BusinessLogic.Interfaces;
-using DataAccess.Abstract;
+using DataAccess.Dto;
+using DataAccess.Repositories;
 using System.Collections.Generic;
 
-namespace BusinessLogic.Services
+namespace DataAccess.Services
 {
     public class GenreService : IGenreService
     {
@@ -19,14 +18,14 @@ namespace BusinessLogic.Services
 
         public GenreDto GetById(int genreId)
         {
-            var obj = _repository.Get(genreId);
-            return _mapper.Map<GenreDto>(obj);
+            var genre = _repository.Get(genreId);
+            return _mapper.Map<GenreDto>(genre);
         }
 
         List<GenreDto> IGenreService.GetAll()
         {
-            var objects = _repository.GetAll();
-            return _mapper.Map<List<GenreDto>>(objects);
+            var genres = _repository.GetAll();
+            return _mapper.Map<List<GenreDto>>(genres);
         }
     }
 }

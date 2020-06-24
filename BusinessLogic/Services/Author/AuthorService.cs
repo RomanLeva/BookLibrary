@@ -1,32 +1,31 @@
 ﻿using AutoMapper;
-using BusinessLogic.Dto;
-using BusinessLogic.Interfaces;
-using DataAccess.Abstract;
+using DataAccess.Dto;
+using DataAccess.Repositories;
 using System.Collections.Generic;
 
-namespace BusinessLogic.Services
+namespace DataAccess.Services
 {
     public class AuthorService : IAuthorService
     {
-        private readonly IAuthorRepository _repository;
+        private readonly IAuthorRepository _IAuthorRepository;
         private readonly IMapper _mapper;
 
         public AuthorService(IAuthorRepository repository, IMapper mapper)
         {
-            _repository = repository;
+            _IAuthorRepository = repository;
             _mapper = mapper;
         }
 
         List<AuthorDto> IAuthorService.GetAll()
         {
-            var objects = _repository.GetAll();
-            return _mapper.Map<List<AuthorDto>>(objects);
+            var authors = _IAuthorRepository.GetAll();
+            return _mapper.Map<List<AuthorDto>>(authors);
         }
 
         AuthorDto IAuthorService.GetById(int authorId)
         {
-            var obj = _repository.Get(authorId);
-            return _mapper.Map<AuthorDto>(obj);
+            var author = _IAuthorRepository.Get(authorId);
+            return _mapper.Map<AuthorDto>(author);
         }
     }
 }

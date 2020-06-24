@@ -2,138 +2,126 @@
 using System.Data;
 using System.Text;
 
-namespace BusinessLogic.Mappings
+namespace DataAccess.Services
 {
-    public static class TableGenerator
+    public class TableGenerator
     {
-        private static readonly Random _Random = new Random();
+        private readonly Random Random = new Random();
+        private readonly int startingIndex = 1;
 
-        public static void FillStorageWithFakeBooks(int BooksIdCount, int AuthorsIdCount, int GenresIdCount )
-        {
-            var booksTable = CreateBooksTable(BooksIdCount);
-            var authorsTable = CreateAuthorsTable(AuthorsIdCount);
-            var genresTable = CreateGenresTable(GenresIdCount);
-            var bookToAuthorstable = CreateBookAuthorsTable(BooksIdCount, GenresIdCount);
-            var genreToBookstable = CreateGenreBooksTable(GenresIdCount, BooksIdCount);
-            SqlBulkDataTableWriter.WriteDataTableToServer(booksTable);
-            SqlBulkDataTableWriter.WriteDataTableToServer(authorsTable);
-            SqlBulkDataTableWriter.WriteDataTableToServer(genresTable);
-            SqlBulkDataTableWriter.WriteDataTableToServer(bookToAuthorstable);
-            SqlBulkDataTableWriter.WriteDataTableToServer(genreToBookstable);
-        }
-
-        private static DataTable CreateBooksTable(int BooksIdCount)
+        public DataTable CreateBooksTable(int booksIdCount)
         {
             var dataTable = new DataTable("Books");
 
-            const string BookId = "BookId";
-            const string Name = "Name";
-            const string Description = "Description";
-            const string PublicationDate = "PublicationDate";
-            const string Isbn = "Isbn";
-            const string Text = "Text";
-            const string ImageUrl = "ImageUrl";
+            const string bookId = "BookId";
+            const string name = "Name";
+            const string description = "Description";
+            const string publicationDate = "PublicationDate";
+            const string isbn = "Isbn";
+            const string text = "Text";
+            const string imageUrl = "ImageUrl";
 
-            var columns = new[] {BookId, Name, Description, PublicationDate, Isbn, Text, ImageUrl };
+            var columns = new[] {bookId, name, description, publicationDate, isbn, text, imageUrl };
 
             foreach (var column in columns)
             {
                 dataTable.Columns.Add(column);
             }
 
-            for (var i = 1; i <= BooksIdCount; i++)
+            for (var i = startingIndex; i <= booksIdCount; i++)
             {
                 var row = dataTable.NewRow();
-                row[Name] = GenerateName();
-                row[Description] = _Random.Next(100000).ToString();
-                row[PublicationDate] = new DateTime(2020, 1, 1); 
-                row[Isbn] = _Random.Next(100000).ToString();
-                row[Text] = "some random text" + _Random.Next(100000).ToString();
-                row[ImageUrl] = "~\\images\\book_image.jpg";
+                row[name] = GenerateName();
+                row[description] = Random.Next(100000).ToString();
+                row[publicationDate] = new DateTime(2020, 1, 1); 
+                row[isbn] = Random.Next(100000).ToString();
+                row[text] = "some random text" + Random.Next(100000).ToString();
+                row[imageUrl] = "~\\images\\book_image.jpg";
                 dataTable.Rows.Add(row);
             }
 
             return dataTable;
         }
 
-        private static DataTable CreateAuthorsTable(int AuthorsIdCount)
+        public DataTable CreateAuthorsTable(int authorsIdCount)
         {
             var dataTable = new DataTable("Authors");
 
-            const string AuthorId = "AuthorId";
-            const string Name = "Name";
-            const string Surname = "Surname";
-            const string Patronymic = "Patronymic";
-            const string BirthDate = "BirthDate";
-            const string ImageUrl = "ImageUrl";
+            const string authorId = "AuthorId";
+            const string name = "Name";
+            const string surname = "Surname";
+            const string patronymic = "Patronymic";
+            const string birthDate = "BirthDate";
+            const string imageUrl = "ImageUrl";
 
-            var columns = new[] { AuthorId, Name, Surname, Patronymic, BirthDate, ImageUrl };
+            var columns = new[] { authorId, name, surname, patronymic, birthDate, imageUrl };
 
             foreach (var column in columns)
             {
                 dataTable.Columns.Add(column);
             }
 
-            for (var i = 1; i <= AuthorsIdCount; i++)
+            for (var i = startingIndex; i <= authorsIdCount; i++)
             {
                 var row = dataTable.NewRow();
-                row[Name] = GenerateName();
-                row[Surname] = GenerateName();
-                row[Patronymic] = GenerateName();
-                row[BirthDate] = new DateTime(1987, 1, 1);
-                row[ImageUrl] = "~\\images\\Kolima-Magadan road.jpg";
+                row[name] = GenerateName();
+                row[surname] = GenerateName();
+                row[patronymic] = GenerateName();
+                row[birthDate] = new DateTime(1987, 1, 1);
+                row[imageUrl] = "~\\images\\Kolima-Magadan road.jpg";
                 dataTable.Rows.Add(row);
             }
 
             return dataTable;
         }
 
-        private static DataTable CreateGenresTable(int GenresIdCount)
+        public DataTable CreateGenresTable(int genresIdCount)
         {
             var dataTable = new DataTable("Genres");
 
-            const string GenreId = "GenreId";
-            const string Name = "Name";
+            const string genreId = "GenreId";
+            const string name = "Name";
 
-            var columns = new[] { GenreId, Name };
+            var columns = new[] { genreId, name };
 
             foreach (var column in columns)
             {
                 dataTable.Columns.Add(column);
             }
 
-            for (var i = 1; i <= GenresIdCount; i++)
+            for (var i = startingIndex; i <= genresIdCount; i++)
             {
                 var row = dataTable.NewRow();
-                row[GenreId] = i;
-                row[Name] = GenerateName();
+                row[genreId] = i;
+                row[name] = GenerateName();
                 dataTable.Rows.Add(row);
             }
 
             return dataTable;
         }
-        private static DataTable CreateBookAuthorsTable(int BooksIdCount, int AuthorsIdCount)
+
+        public DataTable CreateBookAuthorsTable(int booksIdCount, int authorsIdCount)
         {
             var dataTable = new DataTable("BookAuthors");
 
-            const string Book_BookId = "Book_BookId";
-            const string Author_AuthorId = "Author_AuthorId";
+            const string book_BookId = "Book_BookId";
+            const string author_AuthorId = "Author_AuthorId";
 
-            var columns = new[] { Book_BookId, Author_AuthorId };
+            var columns = new[] { book_BookId, author_AuthorId };
 
             foreach (var column in columns)
             {
                 dataTable.Columns.Add(column);
             }
 
-            var authorId = 1;
-            for (var bookId = 1; bookId <= BooksIdCount; bookId++)
+            var authorId = startingIndex;
+            for (var bookId = startingIndex; bookId <= booksIdCount; bookId++)
             {
                 var row = dataTable.NewRow();
-                row[Book_BookId] = bookId;
-                row[Author_AuthorId] = ++authorId;
+                row[book_BookId] = bookId;
+                row[author_AuthorId] = ++authorId;
                 dataTable.Rows.Add(row);
-                if (authorId == AuthorsIdCount)
+                if (authorId == authorsIdCount)
                 {
                     authorId = 1;
                 }
@@ -142,28 +130,28 @@ namespace BusinessLogic.Mappings
             return dataTable;
         }
 
-        private static DataTable CreateGenreBooksTable(int GenresIdCount, int BooksIdCount)
+        public DataTable CreateGenreBooksTable(int genresIdCount, int booksIdCount)
         {
             var dataTable = new DataTable("GenreBooks");
 
-            const string Genre_GenreId = "Genre_GenreId";
-            const string Book_BookId = "Book_BookId";
+            const string genre_GenreId = "Genre_GenreId";
+            const string book_BookId = "Book_BookId";
 
-            var columns = new[] { Genre_GenreId, Book_BookId };
+            var columns = new[] { genre_GenreId, book_BookId };
 
             foreach (var column in columns)
             {
                 dataTable.Columns.Add(column);
             }
 
-            var bookId = 1;
-            for (var genreId = 1; genreId <= GenresIdCount; genreId++)
+            var bookId = startingIndex;
+            for (var genreId = startingIndex; genreId <= genresIdCount; genreId++)
             {
                 var row = dataTable.NewRow();
-                row[Book_BookId] = bookId;
-                row[Genre_GenreId] = ++bookId;
+                row[book_BookId] = bookId;
+                row[genre_GenreId] = ++bookId;
                 dataTable.Rows.Add(row);
-                if (bookId == BooksIdCount)
+                if (bookId == booksIdCount)
                 {
                     bookId = 1;
                 }
@@ -172,23 +160,21 @@ namespace BusinessLogic.Mappings
             return dataTable;
         }
 
-        private static string GenerateName()
+        public string GenerateName()
         {
+            const string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            var random = new Random();
             var stringBuilder = new StringBuilder();
+            const int nameLength = 7;
 
-            var length = 7;
-            char letter;
-
-            for (int i = 0; i < length; i++)
+            for (int i = 0; i < nameLength; i++)
             {
-                var flt = _Random.NextDouble();
-                var shift = Convert.ToInt32(Math.Floor(25 * flt));
-                letter = Convert.ToChar(shift + 65);
-
-                stringBuilder.Append(letter);
+                int num = random.Next(0, chars.Length - 1);
+                var randomLetter = chars[num];
+                stringBuilder.Append(randomLetter);
             }
 
-            return stringBuilder.ToString(); ;
+            return stringBuilder.ToString();
         }
     }
 }

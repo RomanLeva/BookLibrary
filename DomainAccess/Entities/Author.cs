@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DataAccess.Entities
+namespace DataAccess.Repositories
 {
     public class Author
     {
@@ -22,16 +22,11 @@ namespace DataAccess.Entities
         [StringLength(50)]
         public string Patronymic { get; set; }
 
-        [Column(TypeName = "date")]
+        [Column(TypeName = "date")] //Used because of method Seed bug
         public DateTime BirthDate { get; set; }
 
         public string ImageUrl { get; set; }
 
         public virtual List<Book> Books { get; set; }
-
-        public Author()
-        {
-            Books = new List<Book>();
-        }
     }
 }

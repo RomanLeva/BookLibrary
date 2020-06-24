@@ -1,29 +1,29 @@
 ﻿using AutoMapper;
-using BusinessLogic.Dto;
-using BusinessLogic.Mappings;
-using BusinessLogic.Interfaces;
-using DataAccess.Abstract;
-using DataAccess.Entities;
-using System;
+using DataAccess.Dto;
+using DataAccess.Repositories;
 using System.Web;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.IO;
+using DataAccess.Infrastructore;
+using System;
 
-namespace BusinessLogic.Services
+namespace DataAccess.Services
 {
     public class BookService : IBookService
     {
-        private readonly IBookRepository _repository;
+        private readonly IBookRepository _IBookRepository;
         private readonly IMapper _mapper;
+        private readonly SqlBulkCopyFasade _sqlBulkCopyFasade;
 
-        public BookService(IBookRepository repository, IMapper mapper)
+        public BookService(IBookRepository repository, IMapper mapper, SqlBulkCopyFasade sqlBulkCopyFasade)
         {
-            _repository = repository;
+            _IBookRepository = repository;
             _mapper = mapper;
+            _sqlBulkCopyFasade = sqlBulkCopyFasade;
         }
 
-        public void Create(BookDto bookDto,
+        public void Create(
+            BookDto bookDto,
             HttpPostedFileBase imageFile,
             HttpPostedFileBase textFile)
         {
@@ -33,43 +33,33 @@ namespace BusinessLogic.Services
                 imageFile.InputStream.Read(image, 0, imageFile.ContentLength);
 
                 var path = HttpContext.Current.Server.MapPath(@"/images/books/" + bookDto.Name + ".jpg");
-                System.IO.File.WriteAllBytes(path, image);
+                File.WriteAllBytes(path, image);
 
                 bookDto.ImageUrl = "/images/books/" + bookDto.Name + ".jpg";
+            } else
+            {
+                bookDto.ImageUrl = "~\\images\\book_image.jpg";
             }
 
             if (textFile != null)
             {
                 bookDto.Text = new StreamReader(textFile.InputStream).ReadToEnd();
             }
+
+            CalculateBookStatistics(bookDto);
 
             var bookObj = _mapper.Map<Book>(bookDto);
             
-            _repository.Create(bookObj);
+            _IBookRepository.Create(bookObj);
         }
 
-        public void Delete(int id)
+        public void Delete(int bookId)
         {
-            _repository.Delete(id);
+            _IBookRepository.Delete(bookId);
         }
 
-        public List<BookDto> Find(Func<BookDto, bool> predicate)
-        {
-            var objects = _repository.GetAll();
-            var dtos = _mapper.Map<List<BookDto>>(objects);
-            var entities = new List<Book>();
-            foreach (var b in dtos)
-            {
-                if (predicate.Invoke(b))
-                {
-                    entities.Add(_mapper.Map<Book>(b));
-                }
-            }
-            var e = _mapper.Map<List<BookDto>>(entities);
-            return e;
-        }
-
-        public void Update(BookDto bookDto,
+        public void Update(
+            BookDto bookDto,
             HttpPostedFileBase imageFile,
             HttpPostedFileBase textFile)
         {
@@ -79,38 +69,75 @@ namespace BusinessLogic.Services
                 imageFile.InputStream.Read(image, 0, imageFile.ContentLength);
 
                 var path = HttpContext.Current.Server.MapPath(@"/images/books/" + bookDto.Name + ".jpg");
-                System.IO.File.WriteAllBytes(path, image);
+                File.WriteAllBytes(path, image);
 
                 bookDto.ImageUrl = "/images/books/" + bookDto.Name + ".jpg";
+            }else
+            {
+                bookDto.ImageUrl = "~\\images\\book_image.jpg";
             }
+
             if (textFile != null)
             {
                 bookDto.Text = new StreamReader(textFile.InputStream).ReadToEnd();
             }
+
+            CalculateBookStatistics(bookDto);
+
             var bookObj = _mapper.Map<Book>(bookDto);
-            _repository.Update(bookObj);
+
+            _IBookRepository.Update(bookObj);
         }
 
         List<BookDto> IBookService.GetAll()
         {
-            var objects = _repository.GetAll();
-            return _mapper.Map<List<BookDto>>(objects);
+            var books = _IBookRepository.GetAll();
+            return _mapper.Map<List<BookDto>>(books);
         }
 
         BookDto IBookService.GetById(int bookId)
         {
-            var obj = _repository.Get(bookId);
-            return _mapper.Map<BookDto>(obj);
+            var book = _IBookRepository.Get(bookId);
+            return _mapper.Map<BookDto>(book);
         }
 
-        public List<BookDto> Search(string BookName, string AuthorName, string Genre, string Date)
+        public List<BookDto> Search(string bookName, string authorName, string genre, string date)
         {
-            var books = _repository.Search(BookName,AuthorName,Genre,Date);
+            var books = _IBookRepository.Search(bookName, authorName, genre, date);
             return _mapper.Map<List<BookDto>>(books);
         }
-        public async Task FillStorageWithFakeBooks()
+
+        public void FillStorageWithFakeBooks()
         {
-            await Task.Run(() => TableGenerator.FillStorageWithFakeBooks(10000, 100, 10));
+            const int booksIdCount = 10000;
+            const int authorsIdCount = 1000;
+            const int genresIdCount = 100;
+
+            var tableGenerator = new TableGenerator();
+
+            var booksTable = tableGenerator.CreateBooksTable(booksIdCount);
+            var authorsTable = tableGenerator.CreateAuthorsTable(authorsIdCount);
+            var genresTable = tableGenerator.CreateGenresTable(genresIdCount);
+            var bookToAuthorstable = tableGenerator.CreateBookAuthorsTable(booksIdCount, genresIdCount);
+            var genreToBookstable = tableGenerator.CreateGenreBooksTable(genresIdCount, booksIdCount);
+
+            _sqlBulkCopyFasade.WriteDataTableToServer(booksTable);
+            _sqlBulkCopyFasade.WriteDataTableToServer(authorsTable);
+            _sqlBulkCopyFasade.WriteDataTableToServer(genresTable);
+            _sqlBulkCopyFasade.WriteDataTableToServer(bookToAuthorstable);
+            _sqlBulkCopyFasade.WriteDataTableToServer(genreToBookstable);
+        }
+
+        private void CalculateBookStatistics(BookDto bookDto)
+        {
+            var textStatistic = new BookTextStatisticDto();
+            textStatistic.WordsCount = TextStatisticsUtils.WordsCount(bookDto.Text);
+            textStatistic.AverageSentenceLenght = Convert.ToInt32(TextStatisticsUtils.AverageSentenceLength(bookDto.Text));
+            textStatistic.AverageWordLenght = Convert.ToInt32(TextStatisticsUtils.AverageWordLength(bookDto.Text));
+            textStatistic.UniqueWords = TextStatisticsUtils.UniqueWordsCount(bookDto.Text);
+            textStatistic.TextLength = TextStatisticsUtils.TextLength(bookDto.Text);
+
+            bookDto.TextStatistics.Add(textStatistic);
         }
     }
 }

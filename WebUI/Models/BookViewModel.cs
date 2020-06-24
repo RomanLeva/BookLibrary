@@ -24,6 +24,8 @@ namespace WebUI.Models
 
         public string ImageUrl { get; set; }
 
+        public List<BookTextStatisticViewModel> TextStatistics { get; set; }
+
         public List<AuthorViewModel> Authors { get; set; }
 
         public List<GenreViewModel> Genres { get; set; }

@@ -1,11 +1,11 @@
 ﻿using System.Web.Mvc;
-using BusinessLogic.Interfaces;
-using BusinessLogic.Mappings;
+using DataAccess.Services;
 using WebUI.Models;
 using AutoMapper;
 using System.Collections.Generic;
-using BusinessLogic.Dto;
+using DataAccess.Dto;
 using System.Web;
+using System.Linq;
 
 namespace WebUI.Controllers
 {
@@ -29,11 +29,11 @@ namespace WebUI.Controllers
 
         public ActionResult Books(int page = 1)
         {
-            var bookDto = _bookService.GetAll();
+            var bookDtos = _bookService.GetAll();
 
             var pageViewObj = new PageViewModel
             {
-                BookViewModels = _mapper.Map<List<BookViewModel>>(bookDto),
+                BookViewModels = _mapper.Map<List<BookViewModel>>(bookDtos),
                 PageNumber = page,
                 PageSize = _pagesize
             };
@@ -49,17 +49,19 @@ namespace WebUI.Controllers
             var pageViewObj = new PageViewModel
             {
                 BookViewModels = new List<BookViewModel> { bookView },
-                PageStatistics = TextStatisticsUtils.GetStatisticString(bookView.Text)
+                BookTextStatistics = bookView.TextStatistics.FirstOrDefault()
             };
 
             return View(pageViewObj);
         }
 
         [HttpPost]
-        public ActionResult Edit(BookViewModel bookView,
+        public ActionResult Edit(
+            BookViewModel bookView,
             HttpPostedFileBase imageFile,
             HttpPostedFileBase textFile,
-            string authorId, string genreId)
+            string authorId,
+            string genreId)
         {
             var bookDto = _mapper.Map<BookDto>(bookView);
             var authorDto = _authorService.GetById(int.Parse(authorId));
@@ -128,11 +130,11 @@ namespace WebUI.Controllers
 
         public ActionResult Search(string BookName, string AuthorName, string Genre, string Date)
         {
-            var dtoObjs = _bookService.Search(BookName, AuthorName, Genre, Date);
+            var bookDtos = _bookService.Search(BookName, AuthorName, Genre, Date);
 
             var pageViewObj = new PageViewModel
             {
-                BookViewModels = _mapper.Map<List<BookViewModel>>(dtoObjs),
+                BookViewModels = _mapper.Map<List<BookViewModel>>(bookDtos),
                 PageNumber = 1,
                 PageSize = _pagesize
             };
@@ -140,11 +142,10 @@ namespace WebUI.Controllers
             return View("Books", pageViewObj);
         }
 
-        public ActionResult Fill()
+        public ActionResult FillStorageWithFakeBooks()
         {
-            TempData["msg"] = "Started creating alot of books in database";
             _bookService.FillStorageWithFakeBooks();
-            
+            TempData["msg"] = "Created a lot of books in database";
             return RedirectToAction("Books");
         }
     }

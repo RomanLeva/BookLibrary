@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Data.Entity.Migrations;
-using DataAccess.Entities;
-
+using DataAccess.Repositories;
+using DataAccess.EntityFramework;
+using System.Collections.Generic;
 
 namespace DataAccess.Migrations
 {
@@ -12,12 +13,13 @@ namespace DataAccess.Migrations
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(EntityFramework.EFDBContext context)
+        protected override void Seed(EFDBContext efDbContext)
         {
-            //if (!System.Diagnostics.Debugger.IsAttached)
-            //    System.Diagnostics.Debugger.Launch();
             Author author = new Author();
+            author.Books = new List<Book>();
             Book book = new Book();
+            book.Authors = new List<Author>();
+            book.Genres = new List<Genre>();
             author.Name = "Vasily";
             author.Patronymic = "Ivanovich";
             author.Surname = "Duborezov";
@@ -25,6 +27,7 @@ namespace DataAccess.Migrations
             author.ImageUrl = @"/images/default/author_image.jpg";
             book.Name = "Kolima-Magadan road";
             Genre genre = new Genre();
+            genre.Books = new List<Book>();
             genre.Name = "History";
             book.Genres.Add(genre);
             genre.Books.Add(book);
@@ -35,12 +38,15 @@ namespace DataAccess.Migrations
             book.ImageUrl = @"/images/default/book_image.jpg";
             book.Authors.Add(author);
             author.Books.Add(book);
-            context.Books.Add(book);
-            context.Authors.Add(author);
-            context.Genres.Add(genre);
+            efDbContext.Books.Add(book);
+            efDbContext.Authors.Add(author);
+            efDbContext.Genres.Add(genre);
 
             Author author1 = new Author();
+            author1.Books = new List<Book>();
             Book book1 = new Book();
+            book1.Authors = new List<Author>();
+            book1.Genres = new List<Genre>();
             author1.Name = "Petr";
             author1.Patronymic = "Vasilich";
             author1.Surname = "Ivanov";
@@ -48,6 +54,7 @@ namespace DataAccess.Migrations
             author1.ImageUrl = @"/images/default/author_image.jpg";
             book1.Name = "Donbass ore mines";
             Genre genre1 = new Genre();
+            genre1.Books = new List<Book>();
             genre1.Name = "Tech";
             genre1.Books.Add(book1);
             book1.Genres.Add(genre1);
@@ -58,12 +65,15 @@ namespace DataAccess.Migrations
             book1.ImageUrl = @"/images/default/book_image.jpg";
             book1.Authors.Add(author1);
             author1.Books.Add(book1);
-            context.Books.Add(book1);
-            context.Authors.Add(author1);
-            context.Genres.Add(genre1);
+            efDbContext.Books.Add(book1);
+            efDbContext.Authors.Add(author1);
+            efDbContext.Genres.Add(genre1);
 
             Author author2 = new Author();
+            author2.Books = new List<Book>();
             Book book2 = new Book();
+            book2.Authors = new List<Author>();
+            book2.Genres = new List<Genre>();
             author2.Name = "Ivan";
             author2.Patronymic = "Radionovich";
             author2.Surname = "Petrov";
@@ -71,6 +81,7 @@ namespace DataAccess.Migrations
             author2.ImageUrl = @"/images/default/author_image.jpg";
             book2.Name = "Computer programming";
             Genre genre2 = new Genre();
+            genre2.Books = new List<Book>();
             genre2.Name = "Science";
             genre2.Books.Add(book2);
             book2.Genres.Add(genre2);
@@ -81,11 +92,11 @@ namespace DataAccess.Migrations
             book2.ImageUrl = @"/images/default/book_image.jpg";
             book2.Authors.Add(author2);
             author2.Books.Add(book2);
-            context.Books.Add(book2);
-            context.Authors.Add(author2);
-            context.Genres.Add(genre2);
+            efDbContext.Books.Add(book2);
+            efDbContext.Authors.Add(author2);
+            efDbContext.Genres.Add(genre2);
 
-            context.SaveChanges();
+            efDbContext.SaveChanges();
         }
     }
 }

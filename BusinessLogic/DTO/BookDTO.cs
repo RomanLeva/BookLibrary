@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BusinessLogic.Dto
+namespace DataAccess.Dto
 {
     public class BookDto
     {
@@ -18,6 +18,8 @@ namespace BusinessLogic.Dto
         public string Text { get; set; }
 
         public string ImageUrl { get; set; }
+
+        public List<BookTextStatisticDto> TextStatistics { get; set; }
 
         public List<AuthorDto> Authors { get; set; }
 

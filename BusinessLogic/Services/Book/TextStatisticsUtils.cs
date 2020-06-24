@@ -1,61 +1,72 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace BusinessLogic.Mappings
+namespace DataAccess.Services
 {
     public static class TextStatisticsUtils
     {
-        private static readonly char[] _delimiterChars = { ' ', ',', '.', ':', ';', '\n','\t', '?', '!', '"', '\'' };
-        private static readonly char[] _delimiterCharsSentences = { '.', '?', '!' };
-
-        public static string GetStatisticString(string text)
-        {
-            if (text == null) return "<text is null>";
-
-            var sb = new StringBuilder();
-            sb.Append("Text length: ").Append(TextStatisticsUtils.TextLength(text)).AppendLine();
-            sb.Append("Words count: ").Append(TextStatisticsUtils.WordsCount(text)).AppendLine();
-            sb.Append("Unique words: ").Append(TextStatisticsUtils.UniqueWordsCount(text)).AppendLine();
-            sb.Append("Middle word length: ").Append(TextStatisticsUtils.AverageWordLegth(text)).AppendLine();
-            sb.Append("Middle sentence length: ").Append(TextStatisticsUtils.MiddleSentenceLength(text)).AppendLine();
-
-            return sb.ToString();
-        }
+        private static readonly char[] DelimiterChars = { ' ', ',', '.', ':', ';', '\n','\t', '?', '!', '"', '\'' };
+        private static readonly char[] DelimiterCharsSentences = { '.', '?', '!' };
 
         public static int TextLength(string text)
         {
-            if (text == null) return 0;
+            if (text == null)
+            {
+                return 0;
+            }
+
             return text.Length;
         }
 
         public static int WordsCount(string text)
         {
-            if (text == null) return 0;
-            var words = text.Split(_delimiterChars, StringSplitOptions.RemoveEmptyEntries);
+            if (text == null)
+            {
+                return 0;
+            }
+            var words = text.Split(DelimiterChars, StringSplitOptions.RemoveEmptyEntries);
+
             return words.Count();
         }
 
         public static int UniqueWordsCount(string text)
         {
-            if (text == null) return 0;
-            var words = text.Split(_delimiterChars, StringSplitOptions.RemoveEmptyEntries);
-            return words.Count();
+            if (text == null)
+            {
+                return 0;
+            }
+            var words = text.Split(DelimiterChars, StringSplitOptions.RemoveEmptyEntries);
+            var wordsSet = new HashSet<string>();
+            foreach(var word in words)
+            {
+                wordsSet.Add(word);
+            }
+
+            return wordsSet.Count();
         }
 
-        public static double AverageWordLegth(string text)
+        public static double AverageWordLength(string text)
         {
-            if (text == null) return 0;
-            var words = text.Split(_delimiterChars, StringSplitOptions.RemoveEmptyEntries);
+            if (text == null)
+            {
+                return 0;
+            }
+            var words = text.Split(DelimiterChars, StringSplitOptions.RemoveEmptyEntries);
             double average = words.Sum(word => word.Length) / words.Count();
+
             return Math.Round(average, 1);
         }
 
-        public static double MiddleSentenceLength(string text)
+        public static double AverageSentenceLength(string text)
         {
-            if (text == null) return 0;
-            var sentences = text.Split(_delimiterCharsSentences, StringSplitOptions.RemoveEmptyEntries);
+            if (text == null)
+            {
+                return 0;
+            }
+            var sentences = text.Split(DelimiterCharsSentences, StringSplitOptions.RemoveEmptyEntries);
             double average = sentences.Sum(sentence => WordsCount(sentence)) / sentences.Count();
+
             return Math.Round(average, 1);
         }
     }

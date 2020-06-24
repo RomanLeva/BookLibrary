@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DataAccess.Entities
+namespace DataAccess.Repositories
 {
     public class Genre
     {
@@ -15,10 +15,5 @@ namespace DataAccess.Entities
         public string Name { get; set; }
 
         public virtual List<Book> Books { get; set; }
-
-        public Genre()
-        {
-            Books = new List<Book>();
-        }
     }
 }

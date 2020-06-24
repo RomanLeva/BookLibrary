@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using BusinessLogic.Mappings;
+using DataAccess.Services;
 
 namespace UnitTests
 {
@@ -22,8 +22,8 @@ namespace UnitTests
             Assert.AreEqual("800", TextStatisticsUtils.TextLength(text));
             Assert.AreEqual("123", TextStatisticsUtils.WordsCount(text));
             Assert.AreEqual("107", TextStatisticsUtils.UniqueWordsCount(text));
-            Assert.AreEqual("5.4", TextStatisticsUtils.AverageWordLegth(text));
-            Assert.AreEqual("17.6", TextStatisticsUtils.MiddleSentenceLength(text));
+            Assert.AreEqual("5.4", TextStatisticsUtils.AverageWordLength(text));
+            Assert.AreEqual("17.6", TextStatisticsUtils.AverageSentenceLength(text));
         }
     }
 }

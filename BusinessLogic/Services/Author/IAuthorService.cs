@@ -1,11 +1,12 @@
-﻿using BusinessLogic.Dto;
+﻿using DataAccess.Dto;
 using System.Collections.Generic;
 
-namespace BusinessLogic.Interfaces
+namespace DataAccess.Services
 {
     public interface IAuthorService
     {
         List<AuthorDto> GetAll();
+
         AuthorDto GetById(int authorId);
     }
 }

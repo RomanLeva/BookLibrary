@@ -1,5 +1,5 @@
 ﻿using System.Web.Mvc;
-using BusinessLogic.Interfaces;
+using DataAccess.Services;
 using WebUI.Models;
 using AutoMapper;
 using System.Collections.Generic;

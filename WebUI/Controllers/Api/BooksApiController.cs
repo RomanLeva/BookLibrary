@@ -1,45 +1,42 @@
-﻿using AutoMapper;
-using BusinessLogic.Dto;
-using BusinessLogic.Interfaces;
+﻿using DataAccess.Dto;
+using DataAccess.Services;
 using System.Collections.Generic;
 using System.Web.Http;
 
-namespace WebUI.Controllers
+namespace WebUI.Controllers.Api
 {
+    //using adress as:  /api/bookapi/<bookId>
     public class BooksApiController : ApiController
     {
-        // /api/bookapi/<bookId>
-        private readonly IMapper _mapper;
-        private readonly IWebApiService _webService;
+        private readonly IBookService _bookService;
 
-        public BooksApiController(IWebApiService webService, IMapper mapper)
+        public BooksApiController(IBookService bookService)
         {
-            _webService = webService;
-            _mapper = mapper;
+            _bookService = bookService;
         }
  
         [HttpGet]
         public List<BookDto> GetBooks()
         {
-            return _webService.GetBooks();
+            return _bookService.GetAll();
         }
 
         [HttpGet]
         public BookDto GetBook(int bookId)
         {
-            return _webService.GetBook(bookId);
+            return _bookService.GetById(bookId);
         }
 
         [HttpPost]
         public void PostBook(BookDto bookDto)
         {
-            _webService.CreateOrUpdateBook(bookDto);
+            //_bookService.Update(bookDto);
         }
 
         [HttpDelete]
         public void DeleteBook(int bookId)
         {
-            _webService.DeleteBook(bookId);
+            _bookService.Delete(bookId);
         }
     }
 }

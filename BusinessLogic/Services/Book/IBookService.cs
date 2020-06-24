@@ -1,24 +1,33 @@
-﻿using BusinessLogic.Dto;
-using System;
+﻿using DataAccess.Dto;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Web;
 
-namespace BusinessLogic.Interfaces
+namespace DataAccess.Services
 {
     public interface IBookService
     {
         List<BookDto> GetAll();
+
         BookDto GetById(int bookId);
-        List<BookDto> Find(Func<BookDto, bool> predicate);
-        void Create(BookDto item,
+
+        void Create(
+            BookDto item,
             HttpPostedFileBase imageFile,
             HttpPostedFileBase textFile);
-        void Update(BookDto item,
+
+        void Update(
+            BookDto bookDto,
             HttpPostedFileBase imageFile,
             HttpPostedFileBase textFile);
-        void Delete(int id);
-        List<BookDto> Search(string BookName, string AuthorName, string Genre, string Date);
-        Task FillStorageWithFakeBooks();
+
+        void Delete(int bookId);
+
+        List<BookDto> Search(
+            string bookName, 
+            string authorName, 
+            string genre, 
+            string date);
+
+        void FillStorageWithFakeBooks();
     }
 }

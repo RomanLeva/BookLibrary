@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DataAccess.Entities
+namespace DataAccess.Repositories
 {
     public class Book
     {
@@ -17,7 +17,7 @@ namespace DataAccess.Entities
 
         public string Description { get; set; }
 
-        [Column(TypeName = "date")]
+        [Column(TypeName = "date")] //Using because of Seed method bug
         public DateTime PublicationDate { get; set; }
 
         [StringLength(100)]
@@ -27,14 +27,10 @@ namespace DataAccess.Entities
 
         public string ImageUrl { get; set; }
 
+        public virtual List<BookTextStatistic> TextStatistics { get; set; }
+
         public virtual List<Author> Authors { get; set; }
 
         public virtual List<Genre> Genres { get; set; }
-
-        public Book()
-        {
-            Authors = new List<Author>();
-            Genres = new List<Genre>();
-        }
     }
 }

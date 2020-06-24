@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using WebUI.Models;
-using BusinessLogic.Dto;
+using DataAccess.Dto;
 
 namespace WebUI.Mappings
 {
@@ -9,6 +9,7 @@ namespace WebUI.Mappings
         public AutoMapperViewAndDtoProfile()
         {
             CreateMap<BookDto, BookViewModel>().ReverseMap();
+            CreateMap<BookTextStatisticDto, BookTextStatisticViewModel>().ReverseMap();
             CreateMap<AuthorDto, AuthorViewModel>().ReverseMap();
             CreateMap<GenreDto, GenreViewModel>().ReverseMap();
         }
