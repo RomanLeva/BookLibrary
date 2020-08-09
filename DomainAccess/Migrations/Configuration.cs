@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data.Entity.Migrations;
-using DataAccess.Repositories;
+using DataAccess.Entities;
 using DataAccess.EntityFramework;
 using System.Collections.Generic;
 

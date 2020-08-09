@@ -1,23 +1,24 @@
 ﻿using AutoMapper;
 using DataAccess.Dto;
-using DataAccess.Repositories;
+using DataAccess.Entities;
 using System.Web;
 using System.Collections.Generic;
 using System.IO;
 using DataAccess.Infrastructore;
 using System;
+using DataAccess.Repositories;
 
 namespace DataAccess.Services
 {
     public class BookService : IBookService
     {
-        private readonly IBookRepository _IBookRepository;
+        private readonly IBookRepository _bookRepository;
         private readonly IMapper _mapper;
         private readonly SqlBulkCopyFasade _sqlBulkCopyFasade;
 
         public BookService(IBookRepository repository, IMapper mapper, SqlBulkCopyFasade sqlBulkCopyFasade)
         {
-            _IBookRepository = repository;
+            _bookRepository = repository;
             _mapper = mapper;
             _sqlBulkCopyFasade = sqlBulkCopyFasade;
         }
@@ -50,12 +51,12 @@ namespace DataAccess.Services
 
             var bookObj = _mapper.Map<Book>(bookDto);
             
-            _IBookRepository.Create(bookObj);
+            _bookRepository.Create(bookObj);
         }
 
         public void Delete(int bookId)
         {
-            _IBookRepository.Delete(bookId);
+            _bookRepository.Delete(bookId);
         }
 
         public void Update(
@@ -86,24 +87,24 @@ namespace DataAccess.Services
 
             var bookObj = _mapper.Map<Book>(bookDto);
 
-            _IBookRepository.Update(bookObj);
+            _bookRepository.Update(bookObj);
         }
 
         List<BookDto> IBookService.GetAll()
         {
-            var books = _IBookRepository.GetAll();
+            var books = _bookRepository.GetAll();
             return _mapper.Map<List<BookDto>>(books);
         }
 
         BookDto IBookService.GetById(int bookId)
         {
-            var book = _IBookRepository.Get(bookId);
+            var book = _bookRepository.Get(bookId);
             return _mapper.Map<BookDto>(book);
         }
 
         public List<BookDto> Search(string bookName, string authorName, string genre, string date)
         {
-            var books = _IBookRepository.Search(bookName, authorName, genre, date);
+            var books = _bookRepository.Search(bookName, authorName, genre, date);
             return _mapper.Map<List<BookDto>>(books);
         }
 

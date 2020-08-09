@@ -5,7 +5,7 @@ using System.Web.Http;
 
 namespace WebUI.Controllers.Api
 {
-    //using adress as:  /api/bookapi/<bookId>
+    //using adress as:  /api/booksapi/getbook/1
     public class BooksApiController : ApiController
     {
         private readonly IBookService _bookService;

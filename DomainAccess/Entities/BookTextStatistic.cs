@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace DataAccess.Repositories
+namespace DataAccess.Entities
 {
     public class BookTextStatistic
     {

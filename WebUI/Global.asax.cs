@@ -1,6 +1,4 @@
-﻿using System;
-using WebUI.Mappings;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Http;
@@ -12,6 +10,9 @@ namespace WebUI
     {
         protected void Application_Start()
         {
+            //GlobalConfiguration.Configuration.Formatters.JsonFormatter
+            //    .SerializerSettings.ReferenceLoopHandling =
+            //    Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             GlobalConfiguration.Configure(WebApiConfig.Register);
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

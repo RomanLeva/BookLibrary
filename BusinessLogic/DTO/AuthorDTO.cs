@@ -17,6 +17,6 @@ namespace DataAccess.Dto
 
         public string ImageUrl { get; set; }
 
-        public List<BookDto> Books { get; set; }
+        public virtual List<BookDto> Books { get; set; }
     }
 }

@@ -16,6 +16,6 @@ namespace DataAccess.Dto
 
         public int AverageSentenceLenght { get; set; }
 
-        public List<BookDto> Book { get; set; }
+        public virtual List<BookDto> Book { get; set; }
     }
 }

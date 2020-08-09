@@ -1,18 +1,18 @@
-﻿using System.Configuration;
-using System.Data.Entity;
-using DataAccess.Repositories;
+﻿using System.Data.Entity;
+using DataAccess.Entities;
+using DomainAccess.Infrastructure;
 
 namespace DataAccess.EntityFramework
 {
     public class EFDBContext : DbContext
     {
-        public EFDBContext(string connectionString) : base(connectionString)
+        public EFDBContext(ConnectionConfiguration connection) : base(connection.ConnectionString)
         {
         }
 
         public EFDBContext()
         {
-            Database.Connection.ConnectionString = ConfigurationManager.ConnectionStrings["Book_Library"].ConnectionString;
+            Database.Connection.ConnectionString = new ConnectionConfiguration().ConnectionString;
         }
 
         public DbSet<Book> Books { get; set; }
@@ -22,3 +22,4 @@ namespace DataAccess.EntityFramework
         public DbSet<Genre> Genres { get; set; }
     }
 }
+

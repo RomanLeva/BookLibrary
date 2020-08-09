@@ -71,9 +71,9 @@
   <ItemGroup>
     <Compile Include="Entities\BookTextStatistic.cs" />
     <Compile Include="Infrastructure\ConnectionConfiguration.cs" />
-    <Compile Include="Migrations\202006171304482_Text_statistics.cs" />
-    <Compile Include="Migrations\202006171304482_Text_statistics.designer.cs">
-      <DependentUpon>202006171304482_Text_statistics.cs</DependentUpon>
+    <Compile Include="Migrations\202008071742241_InitialCreate.cs" />
+    <Compile Include="Migrations\202008071742241_InitialCreate.designer.cs">
+      <DependentUpon>202008071742241_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Repositories\Author\IAuthorRepository.cs" />
     <Compile Include="Repositories\Book\IBookRepository.cs" />
@@ -83,10 +83,6 @@
     <Compile Include="Entities\Genre.cs" />
     <Compile Include="EntityFramework\EFDBContext.cs" />
     <Compile Include="Infrastructure\SqlBulkCopyFasade.cs" />
-    <Compile Include="Migrations\202005251624024_Initial.cs" />
-    <Compile Include="Migrations\202005251624024_Initial.designer.cs">
-      <DependentUpon>202005251624024_Initial.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Author\AuthorRepository.cs" />
@@ -112,11 +108,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202005251624024_Initial.resx">
-      <DependentUpon>202005251624024_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202006171304482_Text_statistics.resx">
-      <DependentUpon>202006171304482_Text_statistics.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202008071742241_InitialCreate.resx">
+      <DependentUpon>202008071742241_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using DataAccess.Dto;
-using DataAccess.Repositories;
+using DataAccess.Entities;
 using System.Collections.Generic;
+using DataAccess.Repositories;
 
 namespace DataAccess.Services
 {

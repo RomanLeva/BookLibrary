@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using DataAccess.Dto;
-using DataAccess.Repositories;
+using DataAccess.Entities;
 
 namespace DataAccess.Services
 {

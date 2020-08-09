@@ -19,10 +19,10 @@ namespace DataAccess.Dto
 
         public string ImageUrl { get; set; }
 
-        public List<BookTextStatisticDto> TextStatistics { get; set; }
+        public virtual List<BookTextStatisticDto> TextStatistics { get; set; }
 
-        public List<AuthorDto> Authors { get; set; }
+        public virtual List<AuthorDto> Authors { get; set; }
 
-        public List<GenreDto> Genres { get; set; }
+        public virtual List<GenreDto> Genres { get; set; }
     }
 }

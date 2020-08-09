@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using System.Linq;
 using DataAccess.EntityFramework;
+using DataAccess.Entities;
 
 namespace DataAccess.Repositories
 {
@@ -25,8 +26,25 @@ namespace DataAccess.Repositories
             {
                 return;
             }
-            
-            _context.Books.Add(book);
+
+            _context.Entry(book).State = EntityState.Added;
+
+
+            book.Authors.ForEach(author =>
+            {
+                if (author.AuthorId != 0)
+                {
+                    _context.Entry(author).State = EntityState.Modified;
+                }
+            });
+            book.Genres.ForEach(genre =>
+            {
+                if (genre.GenreId != 0)
+                {
+                    _context.Entry(genre).State = EntityState.Modified;
+                }
+            });
+
             _context.SaveChanges();
         }
 
@@ -42,7 +60,7 @@ namespace DataAccess.Repositories
 
         public Book Get(int bookId)
         {
-            return _context.Books.Where(x => x.BookId == bookId).Include(b => b.Authors).Include(b => b.Genres).FirstOrDefault();
+            return _context.Books.Where(book => book.BookId == bookId).FirstOrDefault();
         }
 
         public List<Book> GetAll()

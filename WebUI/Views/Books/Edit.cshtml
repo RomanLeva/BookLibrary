@@ -33,14 +33,14 @@
         @Html.EditorFor(model => model.BookViewModels.FirstOrDefault().PublicationDate)
         @Html.ValidationMessageFor(model => model.BookViewModels.FirstOrDefault().PublicationDate)
     </div>
-    <div class="item">
+    <div class="item" id="Authors" onchange="showAuthor()">
         Select Author:
         @Html.DropDownList("AuthorId", (Model.AuthorViewModels as List<AuthorViewModel>)
         .Select(
             author => new SelectListItem { Text = author.Name + " " + author.Surname, Value = author.AuthorId.ToString() }
             )
         )
-        @Html.ValidationMessageFor(model => model.BookViewModels.FirstOrDefault().Authors)
+        @*@Html.ValidationMessageFor(model => model.BookViewModels.FirstOrDefault().Authors)*@
     </div>
     <div class="item">
         Select Genre:
@@ -49,7 +49,7 @@
             genre => new SelectListItem { Text = genre.Name, Value = genre.GenreId.ToString() }
             )
         )
-        @Html.ValidationMessageFor(model => model.BookViewModels.FirstOrDefault().Genres)
+        @*@Html.ValidationMessageFor(model => model.BookViewModels.FirstOrDefault().Genres)*@
     </div>
     <div class="upload">
         Upload image:
@@ -63,3 +63,10 @@
     <input type="submit" value="Save" />
     @Html.ActionLink("Cancel", "Books")
 }
+
+<script>
+    function showAuthor() {
+        let authorsSelect = $('#Authors');
+        
+    }
+</script>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DataAccess.Repositories
+namespace DataAccess.Entities
 {
     public class Book
     {
@@ -12,7 +12,7 @@ namespace DataAccess.Repositories
 
         [Required]
         [Index]
-        [StringLength(40)]
+        [StringLength(50)]
         public string Name { get; set; }
 
         public string Description { get; set; }

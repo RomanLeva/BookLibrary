@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Data.Entity;
+using DataAccess.Entities;
 using System.Linq;
 using DataAccess.EntityFramework;
 
@@ -22,7 +22,7 @@ namespace DataAccess.Repositories
 
         public Author Get(int id)
         {
-            return _context.Authors.Where(x => x.AuthorId == id).Include(b => b.Books).FirstOrDefault();
+            return _context.Authors.Where(x => x.AuthorId == id).FirstOrDefault();
         }
 
         public List<Author> GetAll()
